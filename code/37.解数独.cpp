@@ -34,6 +34,7 @@ private:
         }
         return false;
     }
+    // 检查该位置填ch是否可用
     bool isValid(vector<vector<char>>& board,int r,int c, char n){
         for(int i = 0;i<9;i++){
             if(board[r][i] == n) return false;
