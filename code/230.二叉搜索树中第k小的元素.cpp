@@ -19,7 +19,18 @@
 class Solution {
 public:
     int kthSmallest(TreeNode* root, int k) {
-
+        InOrder(root);
+        return res[k-1];
+    }
+private:
+    vector<int> res;
+    // 使用中序遍历存储整个序列，取得k-1个最小的就是第k小的数字
+    vector<int> InOrder(TreeNode* root){
+        if(!root) return {};
+        InOrder(root->left);
+        res.push_back(root->val);
+        InOrder(root->right);
+        return res;
     }
 };
 // @lc code=end
