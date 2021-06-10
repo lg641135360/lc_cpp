@@ -18,8 +18,25 @@
  */
 class Solution {
 public:
-    int diameterOfBinaryTree(TreeNode* root) {
+    
+    int dfs(TreeNode* root) {
+        if(!root) return 0;
+        
 
+        int left = dfs(root->left);
+        int right = dfs(root->right);
+        ans = max(ans,left+right+1); // 计算d_node即L+R+1 并更新ans
+        return max(left,right) + 1;
+    }
+
+    int ans = 0;
+    // 一条路径的长度为该路径经过的节点数减一
+    // 所以求直径（即求路径长度的最大值）
+    // 等效于求路径经过节点数的最大值减一。
+    int diameterOfBinaryTree(TreeNode* root){
+        if(!root) return 0;
+        dfs(root);
+        return ans-1;
     }
 };
 // @lc code=end
