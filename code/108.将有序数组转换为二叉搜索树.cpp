@@ -18,8 +18,20 @@
  */
 class Solution {
 public:
+    // 根据中序遍历的序列恢复二叉搜索树
+    // 平衡二叉树，根据中间元素作为根节点建立二叉树
     TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return dfs(nums,0,nums.size()-1);
+    }
 
+private:
+    TreeNode* dfs(vector<int>& nums,int start,int end){
+        if(start>end) return {};
+        int mid = start+ (end-start) /2;
+        TreeNode *root= new TreeNode(nums[mid]);
+        root->left = dfs(nums,start,mid-1);
+        root->right = dfs(nums,mid+1,end);
+        return root;
     }
 };
 // @lc code=end
