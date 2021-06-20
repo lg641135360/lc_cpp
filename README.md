@@ -383,14 +383,91 @@
       int main(){ // 编写可变长整型数组类，使其能够使用
           CArray a; // 开始时的数组是空的
           for(int i = 0;i<5;++i)
-              a.push_back(i);
+              a.push_back(i);  // 使用动态分配的内存来存放数据元素，需要指针变量
           CArray a2,a3;
-          a2 = a;
+          a2 = a;              // 重载 “=”
           for(int i = 0;i<a.length();++i)
               cout<<a2[i]<<" ";
           a2 = a3;   // a2是空的
+          for(int i = 0;i < a2.length();++i) // a2.length()返回0
+              cout<<a2[i]<<" ";  // 重载[]
+          cout<<endl;
+          a[3] = 100;
+          CArray a4(a);          // 自己写复制构造函数
+          for(int i = 0;i<a4.length();++i)
+              cout<<a4[i]<<" ";
+          return 0;
+      }
+      
+      class CArray{
+          int size;  // 数组元素的个数
+          int* ptr;  // 指向动态分配的数组
+          public:
+          	CArray(int s=0);   // s代表数组元素个数
+          	CArray(CArray &a);
+          	~CArray();
+          	void push_back(int v); // 用于在数组尾部插入一个元素v
+          	CArray& operator=(const CArray &a);
+          	// 用于数组对象间的赋值
+          	int length(){return size;} // 返回数组元素个数
+          	int& CArray::operator[](int i){
+                  // 用来支持下标访问数组元素
+                  return ptr[i];
+              }
+      }
+      
+      CArray::CArray(int s):size(s){
+          if(s==0)
+              ptr = NULL;
+          else ptr = new int[s];
+      }
+      CArray::CArray(CArray &a){
+          if(!a.ptr){
+              ptr = NULL;
+              size = 0;
+              return ;
+          }
+          ptr = new int[a.size];
+          memcpy(ptr,a.ptr,sizeof(int) *a.size);
+          size = a.size;
+      }
+      CArray::~CArray(){
+          if(ptr) delete []ptr;
+      }
+      CArray& CArray::operator=(const CArray &a){
+      	// 赋值号的作用是使得=左边对象里存放的数组，大小和内容都和右边的对象一样
+          if(ptr == a.ptr) // 防止a=a这样的赋值出现
+              return *this;
+          if(a.ptr==NULL){ // 如果a里面的数组是空的
+              if(ptr) delete []ptr;
+              ptr = NULL;
+              size = 0;
+              return *this;
+          }
+          if(size<a.size){ // 如果原有空间够大，就不用分配新的空间
+              if(ptr)
+                  delete []ptr;
+              ptr=new int[a.size];
+          }
+          memory(ptr,a.ptr,sizeof(int)*a.size);
+          size = a.size;
+          return *this;
+      } // CArray& CArray::operator=(const CArray &a)
+      
+      void CArray::push_back(int v){
+          // 在数组尾部插入一个元素
+      	if(ptr){
+              int* tmpPtr = new int[size+1]; // 重新分配空间
+      		memory(tmpPtr,ptr,sizeof(int)*size); // 拷贝原数组内容
+              delete []ptr;
+              ptr = tmpPtr;
+          }
+          else // 数组本来是空的
+              ptr = new int[1];
+          ptr[size++] = v;  // 加入新的数组元素
       }
       ```
 
-      
+      * ![image-20210620212328480](README.assets/image-20210620212328480.png)
+      * 
 
