@@ -17,7 +17,16 @@
 class Solution {
 public:
     int guessNumber(int n) {
-        
+      int left = 1,right =n,mid=0;
+      // 循环猜的过程就好了
+      while(1){
+        mid = left + (right-left)/2;
+        int ans = guess(mid);
+        if(ans==0) return mid;
+        else if(ans==-1) right = mid-1;
+        else left = mid +1;
+      }
+      return mid;
     }
 };
 // @lc code=end
