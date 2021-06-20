@@ -230,7 +230,7 @@
       * complex_a + complex_b
     
   * 重载目的：扩展C++中提供的运算符的适用范围，使之能作用于对象
-  
+
   * 实质：函数重载
     * 普通函数重载 和 成员函数重载
     * 把含有运算符的表达式转换成对运算符函数的调用
@@ -265,13 +265,13 @@
     // 5,5
     // 3,3
     ```
-  
+
   * 赋值运算符（=）重载
-  
+
     * 有时希望运算符两边类型不匹配：将一个int类型变量赋值给一个Complex对象或把一个char*类型字符串赋值给字符串对象，就需要重载运算符=
-  
+
     * 赋值运算符号只能重载为成员函数
-  
+
     * ```c++
       class String{
           private:
@@ -299,7 +299,98 @@
           return 0;
       }
       ```
-  
+
   * 浅拷贝和深拷贝
-    * ![](./pic/Screenshot-20210620152520-1687x1010.png)
+
+    * ![深拷贝与浅拷贝](./pic/Screenshot-20210620152520-1687x1010.png)
+
+    * 若不定义自己的赋值运算符，S1=S2实际上会导致S1.str和S2.str指向同一地方
+
+    * 若S1对象消亡，析构函数将释放S1.str指向的空间，则S2消亡时还要释放一次，不好
+
+    * 当执行 S1="other"; 会导致S2.str指向的地方被delete
+
+      * 这里要添加成员函数解决这种问题
+
+      * ```c++
+        String & operator = (const String &s){
+            delete [] str;
+            str = new char[strlen(s.str)+1];
+            strcpy(str,s.str);
+            return *this;
+        }
+        
+        // 考虑如下语句
+        String s;
+        s = "hello";
+        s = s;
+        
+        // 解决方案
+        String & operator = (const String &s){
+            if(this==&s)
+                return *this;
+            delete [] str;
+            str = new char[strlen(s.str)+1];
+            strcpy(str,s.str);
+            return *this;
+        }
+        
+        // 为String类编写复制构造函数时，会面临和=同样的问题，用同样的方法处理
+        String(String &s){
+            str = new char[strlen(s.str)+1];
+            strcpy(str,s.str);
+        }
+        ```
+
+    * 运算符重载为友元函数
+
+      * 将运算符重载为类的成员函数，有时不能满足使用要求，重载为普通函数，又不能访问类的私有成员，所以需要将运算符重载为友元
+
+      * ```c++
+        class Complex{
+            double real,imag;
+            public:
+            	Complex(double r,double i):real(r),imag(i){};
+            	Complex operator+(double r);
+        };
+        Complex Complex::operator+(double r){
+            // 能解释c+5
+            return Complex(real+r,imag);
+        }
+        
+        // 经过上述重载后：
+        Complex c;
+        c = c+5;  // 等价于 c= c.operator+(5);
+        // 但是 下面会编译出错
+        c = 5+c; 
+        // 需要将+重载为普通函数
+        Complex operator+(double r,const Complex &c){
+            // 能解释5+c
+            return Complex(c.real+r,c.imag);
+        } // 但是普通函数又不能访问私有成员，那么就需要将运算符+重载为友元
+        class Complex{
+            double real,imag;
+            public:
+            	Complex(double r,double i):real(r),imag(i){};
+            	Complex operator+(double r);
+            	friend Complex operator+(double r,const Complex &c);
+        }
+        ```
+
+  * 运算符重载实例（可变长整型数组）
+
+    * ```c++
+      int main(){ // 编写可变长整型数组类，使其能够使用
+          CArray a; // 开始时的数组是空的
+          for(int i = 0;i<5;++i)
+              a.push_back(i);
+          CArray a2,a3;
+          a2 = a;
+          for(int i = 0;i<a.length();++i)
+              cout<<a2[i]<<" ";
+          a2 = a3;   // a2是空的
+      }
+      ```
+
+      
 
