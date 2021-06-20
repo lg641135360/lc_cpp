@@ -228,10 +228,78 @@
     * 数学中两个复数可以进行+-运算，但在c++中不行
       * 需要自己定义运算符进行运算
       * complex_a + complex_b
+    
   * 重载目的：扩展C++中提供的运算符的适用范围，使之能作用于对象
+  
   * 实质：函数重载
     * 普通函数重载 和 成员函数重载
     * 把含有运算符的表达式转换成对运算符函数的调用
     * 把运算符的操作数转换成运算符函数的参数
     * 运算符被多次重载时，根据实参的类型决定调用哪个运算符函数
+    
+    ```c++
+    class Complex{
+        public:
+        	double real,imag;
+        	Complex(double r=0.0,double i=0.0):real(r),imag(i){}
+        	Complex operator-(const Complex &c);
+    };
+    Complex operator+(const Complex &a,const Complex &b){
+    	return Complex(a.real+b.real,a.imag+b.imag); // 返回一个临时对象
+    }
+    Complex Complex::operator-(const Complex &c){
+        return Complex(real-c.real,imag-c.imag);  // 返回一个临时对象
+    }
+    // 重载为成员函数时，参数个数为运算符 数目减一
+    // 重载为普通函数时，参数个数为运算符 数目
+    
+    int main(){
+    	Complex a(4,4),b(1,1),c;
+        c = a+b;   // 等价于c=operator+(a,b);
+        cout<<c.real<<","<<c.imag<<endl;
+        cout<<(a-b).real<<","<<(a-b).imag<<endl;
+        // a-b 等价于a.operator-(b)
+        return 0;
+    }
+    // output：
+    // 5,5
+    // 3,3
+    ```
+  
+  * 赋值运算符（=）重载
+  
+    * 有时希望运算符两边类型不匹配：将一个int类型变量赋值给一个Complex对象或把一个char*类型字符串赋值给字符串对象，就需要重载运算符=
+  
+    * 赋值运算符号只能重载为成员函数
+  
+    * ```c++
+      class String{
+          private:
+          	char* str;
+          public:
+          	String():str(new char[1]){ str[0] = 0; }
+          	const char* c_str(){ return str; }
+          	String & operator=(const char* s);
+          	~String() {delete [] str}
+      };
+      String & String::operator=(const char* s){
+          // 重载"="使得 obj = “hello” 能够成立
+          delete[] str;
+          str = new char[strlen(s)+1];
+          strcpy( str, s);
+          return *this;
+      }
+      int main(){
+          String s;
+          s = "Good Luck";  // 等价于 s.operator=("Good Luck,");
+          cout<<s.c_str()<<endl;
+          // String s2 = "hello"; // 不注释会出错
+          s = "shenzhou 8!";   // 等价于s.operator=("shenzhou 8!");
+          cout<<s.c_str()<<endl;
+          return 0;
+      }
+      ```
+  
+  * 浅拷贝和深拷贝
+    * ![](./pic/Screenshot-20210620152520-1687x1010.png)
 
