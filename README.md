@@ -469,5 +469,104 @@
       ```
 
       * ![image-20210620212328480](README.assets/image-20210620212328480.png)
-      * 
+
+---
+
+* 流插入运算符和流提取运算符的重载
+
+  * cout是在iostream中定义，ostream类中对象
+
+  * <<能用在cout是因为，在iostream里对<<进行了重载
+
+  * 考虑重载方式，使得cout<<5; 和cout<<this都能成立
+
+    * ```c++
+      // 有可能按以下方式重载成ostream类的成员函数
+      void ostream::operator<<(int n){
+          ...// 输出n的代码
+      	return ;
+      }
+      // 流插入运算符的重载
+      cout<<5;          // 即cout.operator<<(5);
+      cout<<"this";     // 即cout.operator<<("this")
+      ```
+
+    * 怎么重载才能使得上述有效？
+
+      * ```c++
+        ostream& stream::operator<<(int n){
+            ...// 输出n的代码
+           	return *this;
+        }
+        ostream& ostream::operator<<(const char* s){
+            ...// 输出s的代码
+            return *this;
+        }
+        ```
+
+      * cout<<5<<"this";
+
+      * 本质上函数调用本质是什么？
+
+        * cout.operator<<(5).operator<<("this");
+
+        * ```c++
+          // 假定下面程序输出为5hello，该补充些什么
+          class CStudent{
+              public:
+              	int nAge;
+          };
+          int main(){
+          	CStudent s;
+              s.nAge=5;
+              cout<<s<<"hello";
+              return 0;
+          }
+          
+          // 要让cout<<s函数调用之后，继续返回了一个ostream对象，继续调用函数
+          ostream& operator<<(ostream& o,const CStudent &s){
+              o<<s.nAge;
+              return o;
+          }
+          ```
+
+        * 例题：实现cin>>c;就能接受a+bi复数的输入，并且使得c.real=a,c.imag=b的操作
+
+          * ```c++
+            int main(){
+                Complex c;
+                int n;
+                cin>>c>>n;
+                cout<<c<<","<<n;
+                return 0;
+            } // 程序输出结果：13.2+133i
+            
+            #include <iostream>
+            #include <string>
+            #include <cstdlib>
+            using namespace std;
+            class Complex{
+                double real,imag;
+            public: 
+                Complex(double r= 0,double i=0):real(r),imag(i){};
+                friend ostream& operator<<(ostream& os,const Complex &c);
+                friend istream* operator>>(istream &is,Complex &c);
+            };
+            ostream& operator<<(ostream &os,const Complex &c){
+                os<<c.real<<"+"<<c.imag<<"i";   // 以“a+bi”的形式输出
+                return os;
+            }
+            istream& operator>>(istream &is,Complex &c){
+                string s;
+                is>>s;    // 将“a+bi”作为字符串读入，“a+bi”中间不能有空格
+                int pos = s.find("+",0);
+                string sTmp = s.substr(0,pos); // 分离出代表实部的字符串
+                c.real = atof(sTmp.c_str());   // atof库函数将const char*指针指向内容转换成float
+                sTmp = s.substr(pos+1,s.length()-pos-2); // 分离出代表虚部的字符串
+                c.imag = atof(sTmp.c_str());
+                return is;
+            }
+            ```
+
+            
 
