@@ -7,21 +7,19 @@
 // @lc code=start
 class Solution {
 public:
+
+    // 双指针 针对有序数组
+    // 一直让其循环是因为题目说了肯定有解，那么一定有两个数字相加为target，找到了break，返回即可
     vector<int> twoSum(vector<int>& numbers, int target) {
-         map<int,int> nums_indexs;
-        //用来承载结果，初始化一个大小为2，值为-1的容器b
-        vector<int> result(2,-1);
-        for(int i = 0;i<numbers.size();i++){
-            if(nums_indexs.count(target-numbers[i]) > 0){
-                result[0] = i+1;
-                result[1] = nums_indexs[target-numbers[i]] +1;
-                if(result[0] > result[1]) swap(result[0],result[1]);
+        int l = 0,r = numbers.size()-1;
+        while(l<r){ 
+            if(numbers[l] + numbers[r] == target)
                 break;
-            }
-            else 
-                nums_indexs[numbers[i]] = i;
+            else if(numbers[l] + numbers[r] < target)
+                l++;
+            else r--;
         }
-        return result;
+        return vector<int>{l+1,r+1};
     }
 };
 // @lc code=end
