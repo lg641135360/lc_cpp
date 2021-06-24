@@ -568,5 +568,137 @@
             }
             ```
 
-            
+---
+
+
+
+* 继承与派生
+
+  * 继承：在定义一个新类B时，如果该类与某个已有的类A相似（B拥有A的全部特点），把A作为基类，B作为基类的一个派生类（子类）
+
+  * 派生类通过对基类进行修改和扩充得到，可以扩充新的成员变量和成员函数，独立使用，不依赖于基类
+
+    * 派生类的各个成员函数中，不能访问基类中的private成员
+
+  * 写法：
+
+    * ```c++
+      class 派生类名：public 基类名{
+          public:
+          	bool isTrue(){...};  // 会对父类的方法进行覆盖
+      };
+      ```
+
+  * ![image-20210624161851597](README.assets/image-20210624161851597.png)
+
+  * ![image-20210624161757404](README.assets/image-20210624161757404.png)
+
+  * 体积：基类对象体积 + 子类对象自己成员变量的体积
+
+    * 基类对象存储位置在子类对象新增成员变量之前
+    * ![image-20210624160943254](README.assets/image-20210624160943254.png)
+
+* 继承关系与复合关系
+
+  * 继承：“是”关系
+    * 基类A,B是基类A的派生类
+    * “一个B对象也是一个A对象”
+    * ![image-20210624161337931](README.assets/image-20210624161337931.png)
+  * 复合：“有”关系
+    * 类C中“有”成员变量k，k是类D的对象，则C和D是复合关系
+    * “D对象是C对象的固有属性或组成部分”
+    * ![image-20210624161430808](README.assets/image-20210624161430808.png)
+
+---
+
+* 存取权限说明符：protected
+
+  * 基类private成员：可以被下列函数访问
+    * 基类的成员函数
+    * 基类的友元函数
+  * 基类public成员：可以被下列函数访问
+    * 基类的成员函数
+    * 基类的友元函数
+    * 派生类的成员函数
+    * 派生类的友元函数
+    * 其他函数
+  * 基类的protected成员：可以被下列函数访问
+    * 基类的成员函数
+    * 基类的友元函数
+    * 派生类的成员函数可以访问当前对象的基类的保护成员
+  * ![image-20210624162424376](README.assets/image-20210624162424376.png)
+    * f不是当前对象，当前对象是this指针指向的对象
+
+* 派生类的构造函数
+
+  * ![image-20210624162958920](README.assets/image-20210624162958920.png)
+  * ![image-20210624163058642](README.assets/image-20210624163058642.png)
+    * 创建派生类的对象时，需要创建好基类的对象（这点在内存上两者的位置也能看出）：初始化派生类对象中的从基类继承的成员。执行派生类构造函数之前，总是先执行基累的构造函数
+    * ![image-20210624170843721](README.assets/image-20210624170843721.png)
+      * 调用基类构造函数的方式
+        * 显式方式：在派生类的构造函数中，为基类的构造函数提供参数
+          * derived::derived(arg_derived-list):base(arg_base-list)
+        * 隐式方式：在派生类的构造函数中，省略基类的构造函数时，派生类的构造函数自动调用基类的默认构造函数
+      * 派生类的析构函数被执行时，在执行完派生类的析构函数之后，自动调用基类的析构函数
+    * ![image-20210624164322230](README.assets/image-20210624164322230.png)
+    * ![image-20210624164340159](README.assets/image-20210624164340159.png)
+
+* public继承的赋值兼容规则
+
+  * ```c++
+    class base{};
+    class dervied:public base{};
+    base b;
+    derived d;
+    ```
+
+    * 派生类的对象可以赋值给基类对象
+      * b=d
+    * 派生类对象可以初始化基类引用
+      * base &br = d;
+    * 派生类对象的地址可以赋值给基类指针
+      * base *pb = &d;
+    * 如果派生方式是private或protected，上面三条都不可以
+
+* protected继承和private继承
+
+  * ```c++
+    class base{};
+    class derived:protected base{};
+    base b;
+    derived d;
+    ```
+
+  * protected继承时，基类的public成员和protected成员成为派生类的protected成员
+
+  * private继承时，基类的public成员成为派生类的private成员，基类的protected成员成为派生类的不可访问成员
+
+  * protected和private继承不是“是”的关系
+
+* 基类与派生类的指针强制转换
+  * 公有派生的情况下，派生类对象的指针可以直接赋值给基类指针
+    * Base *ptrBase = &objDerived;
+    * ptrBase指向一个Derived类对象
+    * *ptrBase可以看成一个Base类对象，访问其public成员直接通过ptrBase即可，但不能通过ptrBase访问objDerived对象中属于objDerived对象中属于Derived类而不属于Base类的成员
+  * 即使基类指针指向一个派生类的对象，也不能通过基类指针访问基类没有而派生类中有的成员
+  * 通过强制指针类型转换，可将ptrBase转换成Derived类的指针
+    * Base *ptrBase = &objDerived;
+    * Derived *ptrDerived = (Derived * ) ptrBase;
+    * 一定要保证ptrBase指向一个Derived类对象，否则很容易出错
+  * ![image-20210624170250024](README.assets/image-20210624170250024.png)
+  * ![image-20210624170416157](README.assets/image-20210624170416157.png)
+* 直接基类和间接基类
+  * 类A派生类B，类B派生类C，类C派生类D，。。。
+  * ![image-20210624170626245](README.assets/image-20210624170626245.png)
+    * 类A是类B的直接基类
+    * 类B是类C的直接基类，类A是类C的间接基类
+    * 类C是类D的直接基类，类A,B是类D的间接基类
+  * 在声明派生类时，只需要列出它的直接基类
+    * 派生类沿着类的层次自动向上继承它的间接基类
+    * 派生类的成员包括
+      * 派生类自己定义的成员
+      * 直接基类中的所有成员
+      * 所有间接基类的全部成员
+
+---
 
