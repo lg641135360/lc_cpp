@@ -750,5 +750,160 @@
   * 如果将Base中的private换成public，即使Derived中的fun2()是private的，编译依然能够通过，也能正常调用Derived::fun2()
 
 * 多态的实现原理
+
   * 其关键在于通过基类指针或引用调用一个虚函数时，编译时不确定调用的是基类还是派生类的函数，运行时才会确定 -- 动态联编 ？
+
+  * ```c++
+    class Base{
+        public:
+        	int i;
+        	virtual void Print(){ cout<<"Base::Print"; }
+    };
+    class Derived:public Base{
+        public:
+        	int n;
+        	virtual void Print(){ cout<<"Drived:Print"<<endl; }
+    };
+    int main(){
+    	Derived d;
+        cout<<sizeof(Base)<<","<<sizeof(Derived);
+        return 0;
+    }
+    // 程序运行输出结果：8，12或12，16
+    // 程序运行输出结果：8，12
+    // 为什么多4个字节？
+    ```
+
+* 多态实现关键 -- 虚函数表
+
+  * 每个有虚函数的类（或有虚函数的类的派生类）都有一个虚函数类，该类的任何对象中都放着虚函数表的指针。虚函数表中列出了该类的虚函数地址。多出来的4个字节就是用来放虚函数表的地址
+    * ![image-20210625204057622](README.assets/image-20210625204057622.png)
+    * ![image-20210625204113766](README.assets/image-20210625204113766.png)
+
+* 虚析构函数
+
+  * 通过基类的指针删除派生类对象时，通常情况只调用基类的析构函数
+    * 删除一个派生类的对象时，应该先调用派生类的析构函数，接着调用基类的析构函数
+  * 解决办法：把基类的析构函数声明为virtual
+    * 派生类的析构函数可以为virtual不进行声明
+    * 通过基类的指针删除派生类对象时，首先调用派生类的析构函数，然后调用基类的析构函数
+  * 一般来说，一个类定义了虚函数，就应该把析构函数也定义为虚函数。或者，一个类打算作为基类使用，就应该将析构函数定义为虚函数
+  * 注意：不允许以虚函数作为构造函数
+  * ![image-20210625210315137](README.assets/image-20210625210315137.png)
+  * ![image-20210625210443113](README.assets/image-20210625210443113.png)
+
+* 纯虚函数和抽象类
+
+  * 纯虚函数：没有函数体的虚函数
+
+    * ```c++
+      class A{
+          private:
+          	int a;
+          public:
+          	virtual void Print() = 0; // 纯虚函数
+          	void fun() { cout<<"fun"; }
+      };
+      ```
+
+  * 包含纯虚函数的类叫抽象类
+
+    * 抽象类只能作为基类来派生新类使用，不能创建抽象类的对象
+
+    * 抽象类的指针和引用可以指向由抽象类派生出来的类的对象
+
+      * ```C++
+        A a;            // 错误，A是抽象类，不能创建对象
+        A *pa;          // ok，可以定义抽象类的指针和引用
+        pa = new A;     // 错误，A是抽象类，不能创建对象
+        ```
+
+  * 在抽象类的成员函数内可以调用纯虚函数，但在构造函数或析构函数内部不能调用纯虚函数
+
+  * 如果一个类从抽象类派生而来，那么当且仅当它实现了基类中的所有纯虚函数，它才能成为非抽象类
+
+  * ![image-20210625211015319](README.assets/image-20210625211015319.png)
+
+  ---
+
+* 函数模板和类模板
+
+  * 能否写一个swap函数交换各种类型的变量？
+
+    * 函数模板：
+
+      * ```c++
+        template <class T>
+        void Swap(T &x, T &y){
+            T tmp = x;
+            x = y;
+            y = tmp;
+        }
+        
+        // 使用举例
+        int main(){
+            int n = 1,m=2;
+            Swap(n,m);     // 编译器自动生成 void Swap(int &,int &)函数
+            double f = 1.2,g=2.3;
+            Swap(f,g);     // 编译器自动生成 void Swap(double &,double &)函数
+            return 0;
+        }
+        ```
+
+    * 函数模板中可以有不止一个类型参数
+
+      * ```c++
+        template <class T1,class T2>
+        T2 print(T1 arg1,T2 arg2){
+            cout<<arg1<<" "<<arg2<<endl;
+            return arg2;
+        }
+        ```
+
+    * 求数组最大元素的MaxElement函数模板
+
+      * ```c++
+        template <class T>
+        T MaxElement(T a[],int size){   // size 是数组元素个数
+            T tmpMax = a[0];
+            for(int i = 1;i<size;++i)
+                if(tmpMax<a[i])
+                    tmpMax = a[i];
+            return tmpMax;
+        }
+        ```
+
+    * 不通过参数实例化函数模板
+
+      * ```c++
+        #include <iostream>
+        using namespace std;
+        template <class T>
+        T Inc(T n){
+            return 1+n;
+        }
+        int main(){
+            cout<<Inc<double>(4)/2;   // 输出2.5
+            return 0;
+        }
+        ```
+
+* 函数模板的重载 形参表或类型参数表不同
+
+  * ```c++
+    template<class T1,class T2>
+    void print(T1 arg1,T2 arg2){
+        cout<< arg1 << " " << arg2 <<endl;
+    }
+    template<class T>
+    void print(T arg1,T arg2){
+        cout<< arg1 << " " << arg2 << endl;
+    }
+    template<class T,class T2>
+    void print(T arg1,T arg2){
+        cout<< arg1 << " " << arg2 << endl;
+    }
+    ```
+
+    
 
