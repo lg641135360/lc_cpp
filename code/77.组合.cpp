@@ -37,9 +37,9 @@ public:
     // 决定是否将当前数字加入到结果中
     vector<vector<int>> combine(int n, int k) {
         vector<vector<int>> ans;
-        vector<int> comb(k,0);
+        vector<int> comb(k,0);  // 存储k个数字下标的数组
         int count= 0;          // 计数
-        // 从数字1开始
+        // 从数字1开始 看是否要加入结果集合
         backtrack(ans,comb,count,1,n,k);
         return ans;
     }
@@ -49,7 +49,7 @@ public:
             return;   
         }
         for(int i =pos;i<=n;i++){
-            comb[count++] = 1; // 选择当前节点
+            comb[count++] = i; // 选择当前节点
             backtrack(ans,comb,count,i+1,n,k);  
             --count;     // 回到之前节点
         }
