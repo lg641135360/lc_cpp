@@ -67,42 +67,52 @@ class Solution
     //         backtrack(n, 0, chessboard);
     //         return result;
     //     }
+
 public:
-    // 修改状态矩阵进行回溯。对每一行、列、左斜和右斜建立访问数组，记录它们是否存在皇后
-    // 满足条件的结果中每一行或列有且仅有一个皇后 一共n行n列
-    // 对每一行遍历插入皇后，不需要对行建立访问数组
-    // vector<vector<string>> solveNQueens(int n)
-    // {
-    //     vector<vector<string>> ans;
-    //     if (n == 0)
-    //         return ans;
-    //     vector<string> board(n, string(n, '.'));
-    //     vector<bool> column(n,false),ldiag(2*n-1,false),rdiag(2*n-1,false);
-    //     backtrack(ans,board,column,ldiag,rdiag,0,n);
-    //     return ans;
-    // }
-
-    // void backtrack(vector<vector<string>> &ans,vector<string> &board,vector<bool> &column,vector<bool> &ldiag,vector<bool> &rdiag,int row,int n){
-    //     if(row == n){
-    //         ans.push_back(board);
-    //         return ;
-    //     }
-    //     for(int i = 0;i<n;++i){
-    //         if(column[i] || ldiag[n-row+i-1] || rdiag[row +i+1])
-    //             continue;
-    //         // 修改当前节点状态
-    //         board[row][i] = 'Q';
-    //         column[i] = ldiag[n-row+i-1] = rdiag[row+i+1] = true;
-    //         // 递归子节点
-    //         backtrack(ans,board,column,ldiag,rdiag,row+1,n);
-    //         // 回改当前节点状态
-    //         board[row][i] = '.';
-    //         column[i] = ldiag[n-row+i-1] = rdiag[row+i+1] = false;
-    //     }
-    // }
-
     vector<vector<string>> solveNQueens(int n)
     {
+        vector<vector<string>> res;
+        vector<vector<int>> mark(n, vector<int>(n, 0)); // 棋盘是否可以放置皇后
+        vector<string> location(n, string(n, '.'));     // 存储某个摆放结果，插入res
+        generate(0, n, location, res, mark);
+        return res;
+    }
+    void generate(int k, int n, vector<string> &location, vector<vector<string>> &res, vector<vector<int>> &mark)
+    {
+        if (k == n)
+        {
+            res.push_back(location);
+            return;
         }
+        for (int i = 0; i < n; ++i)
+        {
+            if (mark[k][i] == 0)
+            {
+                vector<vector<int>> tmp_mark = mark;
+                location[k][i] = 'Q';
+                put_down_the_queen(k, i, mark);
+                generate(k + 1, n, location, res, mark);
+                mark = tmp_mark;
+                location[k][i] = '.';
+            }
+        }
+    }
+
+    void put_down_the_queen(int x, int y, vector<vector<int>> &mark)
+    {
+        static const int dx[] = {-1, 1, 0, 0, -1, -1, 1, 1};
+        static const int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+        mark[x][y] = 1; // 标记皇后位置
+        for (int i = 1; i < mark.size(); ++i)
+        {
+            for (int j = 0; j < 8; ++j)
+            {
+                int new_x = x + i * dx[j];
+                int new_y = y + i * dy[j];
+                if (new_x >= 0 && new_x < mark.size() && new_y >= 0 && new_y < mark.size())
+                    mark[new_x][new_y] = 1;
+            }
+        }
+    }
 };
 // @lc code=end
