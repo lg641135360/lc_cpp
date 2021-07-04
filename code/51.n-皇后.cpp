@@ -71,34 +71,38 @@ public:
     // 修改状态矩阵进行回溯。对每一行、列、左斜和右斜建立访问数组，记录它们是否存在皇后
     // 满足条件的结果中每一行或列有且仅有一个皇后 一共n行n列
     // 对每一行遍历插入皇后，不需要对行建立访问数组
+    // vector<vector<string>> solveNQueens(int n)
+    // {
+    //     vector<vector<string>> ans;
+    //     if (n == 0)
+    //         return ans;
+    //     vector<string> board(n, string(n, '.'));
+    //     vector<bool> column(n,false),ldiag(2*n-1,false),rdiag(2*n-1,false);
+    //     backtrack(ans,board,column,ldiag,rdiag,0,n);
+    //     return ans;
+    // }
+
+    // void backtrack(vector<vector<string>> &ans,vector<string> &board,vector<bool> &column,vector<bool> &ldiag,vector<bool> &rdiag,int row,int n){
+    //     if(row == n){
+    //         ans.push_back(board);
+    //         return ;
+    //     }
+    //     for(int i = 0;i<n;++i){
+    //         if(column[i] || ldiag[n-row+i-1] || rdiag[row +i+1])
+    //             continue;
+    //         // 修改当前节点状态
+    //         board[row][i] = 'Q';
+    //         column[i] = ldiag[n-row+i-1] = rdiag[row+i+1] = true;
+    //         // 递归子节点
+    //         backtrack(ans,board,column,ldiag,rdiag,row+1,n);
+    //         // 回改当前节点状态
+    //         board[row][i] = '.';
+    //         column[i] = ldiag[n-row+i-1] = rdiag[row+i+1] = false;
+    //     }
+    // }
+
     vector<vector<string>> solveNQueens(int n)
     {
-        vector<vector<string>> ans;
-        if (n == 0)
-            return ans;
-        vector<string> board(n, string(n, '.'));
-        vector<bool> column(n,false),ldiag(2*n-1,false),rdiag(2*n-1,false);
-        backtrack(ans,board,column,ldiag,rdiag,0,n);
-        return ans;
-    }
-
-    void backtrack(vector<vector<string>> &ans,vector<string> &board,vector<bool> &column,vector<bool> &ldiag,vector<bool> &rdiag,int row,int n){
-        if(row == n){
-            ans.push_back(board);
-            return ;
         }
-        for(int i = 0;i<n;++i){
-            if(column[i] || ldiag[n-row+i-1] || rdiag[row +i+1])
-                continue;
-            // 修改当前节点状态
-            board[row][i] = 'Q';
-            column[i] = ldiag[n-row+i-1] = rdiag[row+i+1] = true;
-            // 递归子节点
-            backtrack(ans,board,column,ldiag,rdiag,row+1,n);
-            // 回改当前节点状态
-            board[row][i] = '.';
-            column[i] = ldiag[n-row+i-1] = rdiag[row+i+1] = false;
-        }
-    }
 };
 // @lc code=end
