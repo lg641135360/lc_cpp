@@ -32,18 +32,12 @@ public:
 
     // 动态规划 优化，最终结果只跟其前面两个有关系
     int climbStairs(int n) {
-        // 这里使用int 类型的res存储最终结果就行
-        int p=0,q=0,res=1;
-        for(int i=1; i<=n;i++){
-            
-            p = q;
-            q = res;
-            res = p+q;
-        }
-            
-      
-    
-        return res;
+        vector<int> dp(n+2,0);
+        dp[1] = 1;
+        dp[2] = 2;
+        for(int i = 3;i<=n;++i)
+            dp[i] = dp[i-1] + dp[i-2];
+        return dp[n];
     }
 };
 // @lc code=end
