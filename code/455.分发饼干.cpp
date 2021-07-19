@@ -10,15 +10,14 @@ public:
     int findContentChildren(vector<int>& g, vector<int>& s) {
       sort(g.begin(),g.end());
       sort(s.begin(),s.end());
-      int count = 0;
-      for(int i=0,j=0;i<g.size()&&j<s.size();){
-        if(s[j] >= g[i]){
-          count++;
-          i++;
-          j++;
-        } else j++;
+      int child = 0;       // child表示满足了几个孩子
+      int cookie = 0;      // cookie代表尝试了几个糖果
+      while(child<g.size()&&cookie<s.size()) {
+        if(g[child] <= s[cookie]) 
+            child++;
+        cookie++;
       }
-      return count;
+      return child;
     }
 };
 // @lc code=end
