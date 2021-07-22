@@ -5,28 +5,31 @@
  */
 
 // @lc code=start
-class Solution {
+class Solution
+{
 public:
-    int lengthOfLastWord(string s) {
-        int last_index = s.size()-1;
-        if(s.size() == 1) {
-            if(s[0] == ' ')
+    int lengthOfLastWord(string s)
+    {
+        int last_index = s.size() - 1;
+        if (s.size() == 1)
+        {
+            if (s[0] == ' ')
                 return 0;
-            else 
+            else
                 return 1;
         }
-        for(int i=s.size()-1;i>=0;--i) {
-            if(s[i] == ' ') {
-                if(i == s.size()-1)
+        for (int i = s.size() - 1; i >= 0; --i)
+        {
+            if (s[i] == ' ')
+            {
+                if (i == s.size() - 1)
                     continue;
-                else last_index = i;
-            } 
+                else
+                    last_index = i;
+            }
         }
-            
-        return s.size()-1-last_index;
 
-            
+        return s.size() - 1 - last_index;
     }
 };
 // @lc code=end
-

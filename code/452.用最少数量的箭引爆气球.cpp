@@ -5,7 +5,8 @@
  */
 
 // @lc code=start
-class Solution {
+class Solution
+{
 public:
     // 我的方法，拉胯
     // int findMinArrowShots(vector<vector<int>>& points) {
@@ -28,7 +29,7 @@ public:
     //             count+=2;
     //             used[i-1]=used[i] = 1;
     //         }
-            
+
     //     }
     //     return count;
     // }
@@ -37,25 +38,25 @@ public:
     // 贪心 一定存在一种最优（射出的箭数最小）的方法，使得每一支箭的射出位置都恰好对应着某一个气球的右边界。
     // 考虑所有气球中右边界位置最靠左的那一个，那么一定有一支箭的射出位置就是它的右边界（否则就没有箭可以将其引爆了）。
     // 确定了一支箭之后，我们就可以将这支箭引爆的所有气球移除，并从剩下未被引爆的气球中，再选择右边界位置最靠左的那一个，确定下一支箭，直到所有的气球都被引爆。
-    int findMinArrowShots(vector<vector<int>>& points) {
-        if (points.empty()) {
-            return 0;
-        }
-        // 这里按照气球右边界排序
-        sort(points.begin(), points.end(), [](const vector<int>& u, const vector<int>& v) {
-            return u[1] < v[1];
-        });
-        int pos = points[0][1];  // 这里是第一个右边界
-        int ans = 1;
-        for (const vector<int>& balloon: points) {
-            // 如果没有重叠，那就更新气球右边界并且加一个弓箭
-            if (balloon[0] > pos) {
-                pos = balloon[1];
-                ++ans;
-            }
-        }
-        return ans;
-    }
+    // int findMinArrowShots(vector<vector<int>>& points) {
+    //     if (points.empty()) {
+    //         return 0;
+    //     }
+    //     // 这里按照气球右边界排序
+    //     sort(points.begin(), points.end(), [](const vector<int>& u, const vector<int>& v) {
+    //         return u[1] < v[1];
+    //     });
+    //     int pos = points[0][1];  // 这里是第一个右边界
+    //     int ans = 1;
+    //     for (const vector<int>& balloon: points) {
+    //         // 如果没有重叠，那就更新气球右边界并且加一个弓箭
+    //         if (balloon[0] > pos) {
+    //             pos = balloon[1];
+    //             ++ans;
+    //         }
+    //     }
+    //     return ans;
+    // }
 
     // lc老哥方法2：求集合的交集 :最小交集区间
     // 超时了 gg
@@ -79,6 +80,37 @@ public:
     //     }
     //     return points.size();
     // }
+
+    bool cmp(const pair<int, int> &a, const pair<int, int> &b)
+    {
+        return a.first < b.first; // 不考虑左端点相同时的排序
+    }
+
+    int findMinArrowShots(vector<vector<int>> &points)
+    {
+        if (points.size() == 0)
+            return 0;
+        sort(points.begin(), points.end(), cmp);
+        int shoot_num = 1;
+        int shoot_begin = points[0].first;
+        int shoot_end = points[0].second;
+
+        for (int i = 1; i < points.size(); ++i)
+        {
+            if (points[i].first <= shoot_end)
+            {
+                shoot_begin = points[i].first;
+                if (shoot_end > points[i].second)
+                    shoot_end = points[i].second;
+            }
+            else
+            {
+                shoot_num++;
+                shoot_begin = points[i].first;
+                shoot_end = points[i].second;
+            }
+        }
+        return shoot_num;
+    }
 };
 // @lc code=end
-
