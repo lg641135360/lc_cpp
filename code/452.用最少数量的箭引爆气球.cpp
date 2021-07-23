@@ -81,33 +81,35 @@ public:
     //     return points.size();
     // }
 
-    bool cmp(const pair<int, int> &a, const pair<int, int> &b)
-    {
-        return a.first < b.first; // 不考虑左端点相同时的排序
-    }
+    // bool cmp(const vector<int> &a, const vector<int> &b)
+    // {
+    //     return a[1] < b[1]; // 不考虑左端点相同时的排序
+    // }
 
     int findMinArrowShots(vector<vector<int>> &points)
     {
         if (points.size() == 0)
             return 0;
-        sort(points.begin(), points.end(), cmp);
+        sort(points.begin(), points.end(),[](const vector<int>& u, const vector<int>& v) {
+            return u[1] < v[1];
+        });
         int shoot_num = 1;
-        int shoot_begin = points[0].first;
-        int shoot_end = points[0].second;
+        int shoot_begin = points[0][0];
+        int shoot_end = points[0][1];
 
         for (int i = 1; i < points.size(); ++i)
         {
-            if (points[i].first <= shoot_end)
+            if (points[i][0] <= shoot_end)
             {
-                shoot_begin = points[i].first;
-                if (shoot_end > points[i].second)
-                    shoot_end = points[i].second;
+                shoot_begin = points[i][0];
+                if (shoot_end > points[i][1])
+                    shoot_end = points[i][1];
             }
             else
             {
                 shoot_num++;
-                shoot_begin = points[i].first;
-                shoot_end = points[i].second;
+                shoot_begin = points[i][0];
+                shoot_end = points[i][1];
             }
         }
         return shoot_num;

@@ -19,7 +19,7 @@ public:
                 current_max_index=pre_max_max_index;
             }
             if(pre_max_max_index<nums[i] +i)
-                pre_max_max_index=nums[i]+1;
+                pre_max_max_index=nums[i]+i;
         }
         return jump_min;
     }

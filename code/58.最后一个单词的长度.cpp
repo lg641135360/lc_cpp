@@ -10,26 +10,17 @@ class Solution
 public:
     int lengthOfLastWord(string s)
     {
-        int last_index = s.size() - 1;
-        if (s.size() == 1)
-        {
-            if (s[0] == ' ')
-                return 0;
-            else
-                return 1;
-        }
-        for (int i = s.size() - 1; i >= 0; --i)
-        {
-            if (s[i] == ' ')
-            {
-                if (i == s.size() - 1)
-                    continue;
-                else
-                    last_index = i;
-            }
-        }
+        // 首先应该去除尾部的空格
+        s.erase(s.find_last_not_of(" ") + 1);
 
-        return s.size() - 1 - last_index;
+        int start = s.size()-1;
+        int end = s.size()-1;
+        for(int i=s.size()-1;i>=0;--i) {
+            if(s[i] != ' ')
+                start --;
+            else break;
+        }
+        return end-start;
     }
 };
 // @lc code=end
