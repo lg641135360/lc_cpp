@@ -47,3 +47,5 @@
 
 记录在406用cpp实现leetcode中的题目。
 
+* [cpp学习笔记](./note/cpp_note.md)
+
