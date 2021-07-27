@@ -19,7 +19,21 @@
 class Solution {
 public:
     int findSecondMinimumValue(TreeNode* root) {
-
+        set<int> s;
+        // int second_little = -1;
+        dfs(root,s);
+        if(s.size() >= 2) {
+            s.erase(s.begin());
+            return *s.begin();
+        }
+        else return -1;
+    }
+    
+    void dfs(TreeNode *node,set<int> &s) {
+        if(!node) return ;
+        s.insert(node->val);
+        dfs(node->left,s);
+        dfs(node->right,s);
     }
 };
 // @lc code=end
