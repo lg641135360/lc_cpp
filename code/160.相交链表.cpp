@@ -17,12 +17,11 @@ class Solution {
 public:
     // 走过相同的路，最终相遇
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        if(!headA||!headB) return NULL;
         ListNode *pa=headA;
         ListNode *pb=headB;
         while(pa!=pb) {
-            pa = pa == NULL ? headB:pa->next;
-            pb = pb == NULL ? headA:pb->next;
+            pa = pa  ? pa->next:headB;
+            pb = pb  ? pb->next:headA;
         }
         return pb;
     }
