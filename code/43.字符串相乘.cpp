@@ -10,8 +10,9 @@ public:
     // 模拟计算过程
     string multiply(string num1, string num2) {
         // base case
-        if(!stoi(num1)||!stoi(num2))
+        if(num1=="0"||num2=="0")
             return "0";
+
         vector<string> res_list;
         string res = "";
         for(int i=num2.size()-1;i>=0;--i) {
@@ -84,10 +85,8 @@ public:
             }
         }
         if(!s1.empty()) {
-            if(increase && s1[s1.size()-1]!='9')
-                s1[s1.size()-1] ++;
-            else if(increase && s1[s1.size()-1]=='9')
-
+            if(increase)
+                plus1(s1);
             
             increase =0;
             reverse(s1.begin(),s1.end());
@@ -97,7 +96,7 @@ public:
 
         if(!s2.empty())  {
             if(increase)
-                s2[s2.size()-1] ++;
+                plus1(s2);
             increase = 0;
             reverse(s2.begin(),s2.end());
             res += s2;
@@ -113,10 +112,14 @@ public:
     }
 
     void plus1(string &s) {
-        vector<char> res;
-        for(char s1:s)
-            res.push_back(s1);
-        plus1(res);
+        vector<int> res;
+        for(int s1:s)
+            res.push_back(s1 - '0');
+        res = plusOne(res);
+        string res_s="";
+        for(int i=0;i<res.size();++i)
+            res_s += to_string(res[i]);
+        s = res_s;
     }
 
     vector<int> plusOne(vector<int>& digits) {
