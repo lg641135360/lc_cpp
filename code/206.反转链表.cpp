@@ -44,16 +44,29 @@ public:
     //     return reverseList(next,head);
     // }
     // 非递归写法
+    // ListNode* reverseList(ListNode* head){
+    //     ListNode *prev = nullptr,*next;
+    //     while(head) {
+    //         next = head->next;
+    //         head->next = prev;
+    //         prev = head;
+    //         head = next;
+    //     }
+    //     return prev;
+    // }
+
+
     ListNode* reverseList(ListNode* head){
-        ListNode *prev = nullptr,*next;
+        ListNode *new_head = NULL;
         while(head) {
-            next = head->next;
-            head->next = prev;
-            prev = head;
+            ListNode *next = head->next;
+            head->next = new_head;
+            new_head = head;
             head = next;
         }
-        return prev;
+        return new_head;
     }
+
 };
 // @lc code=end
 

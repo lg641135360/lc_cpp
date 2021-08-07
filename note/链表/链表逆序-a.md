@@ -4,39 +4,31 @@
 
 * output: 5->4->3->2->1->nullptr
 
-  
 
-##### 应掌握递归和非递归写法
+* 思路
+  * **依次遍历**链表节点，每遍历一个节点就**逆置**一个节点
+    * ![image-20210807193912993](链表逆序-a.assets/image-20210807193912993.png)
+    * ![image-20210807193922841](链表逆序-a.assets/image-20210807193922841.png)
+    * ![image-20210807193930026](链表逆序-a.assets/image-20210807193930026.png)
+    * ![image-20210807193936383](链表逆序-a.assets/image-20210807193936383.png)
+  * ![image-20210807194247693](链表逆序-a.assets/image-20210807194247693.png)
 
-* 递归写法
-
-  * ```c++
-    // 添加一个默认参数prev指向当前节点的前驱
-    ListNode* reverseList(ListNode* head,ListNode *prev=nullptr) {
-        // base case
-        if(!head) return prev;
-        // prev指向末尾，这里逆转了当前指针指向，然后将更小规模的问题交给下一次递归
-        ListNode *next = head->next;
-        head->next = prev;
-        return reverseList(next,head);
-    }
-    ```
-
-* 非递归写法
+* 代码实现
 
   * ```c++
     ListNode* reverseList(ListNode* head){
-        // 需要前驱与后继
-        ListNode *prev = nullptr,*next;
+        ListNode *new_head = NULL;
         while(head) {
-            next = head->next;
-            head->next = prev;
-            prev = head;
+            ListNode *next = head->next;
+            head->next = new_head;
+            new_head = head;
             head = next;
         }
-        return prev;
+        return new_head;
     }
     ```
 
-    
+  * ![image-20210807194856643](链表逆序-a.assets/image-20210807194856643.png)
+
+
 
