@@ -55,5 +55,7 @@
 
   
 
-* [cpp学习笔记](./note/cpp_note.md)
+* [cpp学习笔记](./note/cpp/cpp_note.md)
+
+* [cpp_note](./note/cpp/cpp_readme.md)
 
