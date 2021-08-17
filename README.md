@@ -53,9 +53,5 @@
     * [线段树](./note/高级数据结构/线段树.md)
       * [307.区域和的查询](./note/高级数据结构/区域和的查询.md)
 
-  
-
-* [cpp学习笔记](./note/cpp/cpp_note.md)
-
 * [cpp_note](./note/cpp/cpp_readme.md)
 
