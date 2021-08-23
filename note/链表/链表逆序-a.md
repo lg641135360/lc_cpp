@@ -1,8 +1,8 @@
 #### 给定单链表的头结点head，返回反转后链表头指针
 
-* input: 1->2->3->4->5->nullptr
+* `input: 1->2->3->4->5->nullptr`
 
-* output: 5->4->3->2->1->nullptr
+* `output: 5->4->3->2->1->nullptr`
 
 
 * 思路
