@@ -15,32 +15,60 @@ public:
     
     /** Push element x onto stack. */
     // 每次往第一个插入
-    void push(int x) {
-      q.push(x);
-      // 进行n-1次插尾操作(把第一个插到最后)
-      for(int i = 1;i<q.size();i++){
-        q.push(q.front());
-        q.pop();
-      }
-
-    }
+    // void push(int x) {
+    //   q.push(x);
+    //   // 进行n-1次插尾操作(把第一个插到最后)
+    //   for(int i = 1;i<q.size();i++){
+    //     q.push(q.front());
+    //     q.pop();
+    //   }
+    // }
     
     /** Removes the element on top of the stack and returns that element. */
-    int pop() {
-      int res = q.front();
-      q.pop();
-      return res;
-    }
+    // int pop() {
+    //   int res = q.front();
+    //   q.pop();
+    //   return res;
+    // }
     
     /** Get the top element. */
-    int top() {
-      return q.front();
-    }
+    // int top() {
+    //   return q.front();
+    // }
     
     /** Returns whether the stack is empty. */
-    bool empty() {
-      return q.empty();
+    // bool empty() {
+    //   return q.empty();
+    // }
+
+
+    void push(int x) {
+        queue<int> tmp_q;
+        tmp_q.push(x);
+        while(!q.empty()) {
+            tmp_q.push(q.front());
+            q.pop();
+        }
+        while(!tmp_q.empty()) {
+            q.push(tmp_q.front());
+            tmp_q.pop();
+        }
     }
+
+    int pop() {
+        int x = q.front();
+        q.pop();
+        return x;
+    }
+
+    int top() {
+        return q.front();
+    }
+
+    bool empty() {
+        return q.empty();
+    }
+
 private:
     queue<int> q; 
 };
