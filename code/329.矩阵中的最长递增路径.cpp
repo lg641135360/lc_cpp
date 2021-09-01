@@ -8,6 +8,7 @@
 class Solution {
 public:
     // 明显不是dp，没有状态转移
+    // 考虑dfs，把每个点都搜索一哈
     int longestIncreasingPath(vector<vector<int>>& matrix) {
 
     }
