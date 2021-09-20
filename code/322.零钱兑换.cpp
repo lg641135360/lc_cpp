@@ -77,18 +77,134 @@ public:
     //     }
     // }  
 
-    // dp yyds 
-    int coinChange(vector<int>& coins, int amount) {
-        vector<int> dp(amount+1,-1);//最初所有金额的最优解都不可达
-        dp[0] = 0; // 金额0最优解0 
-        for(int i = 1;i<=amount;++i){   // 递推开始   
-            for(int j=0;j<coins.size();++j){ // 遍历每一种钞票
-                if(i-coins[j] >= 0 && dp[i-coins[j]] !=-1)
-                    if(dp[i] == -1||dp[i] > dp[i-coins[j]] +1)
-                        dp[i] = dp[i-coins[j]] +1;
-            }
+    // void generateCombinations(int total,vector<int> &coins,vector<int> &currentCounts,vector<vector<int>> &combinations) {
+    //     // 若当前余额为0，说明组合成立，加入到待选数组中
+    //     if(!total) {
+    //         combinations.push_back(currentCounts);
+    //         return ;   // 跳出递归
+    //     }
+
+    //     int coinsLength = coins.size();
+    //     for(int i=0;i<coinsLength;++i) {
+    //         // 遍历所有面值
+    //         int currentValue = coins[i];
+    //         if(currentValue > total)  // 当前面值大于剩余金额，跳过
+    //             continue;
+            
+    //         // 在对应数量组合的位置上加1
+    //         vector<int> newCounts = currentCounts;
+    //         newCounts[i] ++;
+    //         int rest = total - currentValue;
+            
+    //         // 求解剩余金额部分
+    //         generateCombinations(rest,coins,newCounts,combinations);
+    //     }
+    // }
+
+    // int getMin(vector<vector<int>> &coinsCombinations) {
+    //     // 若没有可用组合，返回-1
+    //     if(!coinsCombinations.size()) return -1;
+
+    //     int minCount = INT_MAX;
+    //     for(const vector<int> &counts : coinsCombinations) {
+    //         int total = 0;  // 求解当前组合的硬币总数
+    //         for(int count : counts) total += count;
+
+    //         // 保留最小的
+    //         if(total < minCount) minCount = total;
+    //     }
+    //     return minCount;
+    // }
+
+
+
+    // 递归方法
+    // int coinChange(vector<int>& coins, int amount) {
+
+    //     vector<vector<int>> coinsCombinations; // 存储所有组合 
+
+    //     // 初始组合，每种硬币的个数都选0
+    //     vector<int> initCounts(coins.size(),0);
+
+    //     // 求出各个符合条件的组合
+    //     generateCombinations(amount,coins,initCounts,coinsCombinations);
+
+    //     return getMin(coinsCombinations); // 求出所有组合中最小值
+    // }
+
+    // int getMinCounts(int total,vector<int> &coins) {
+    //     // 如果余额为0，表示当前组合成立，加入到待选数组
+    //     if(!total) return 0;
+
+    //     int combaLength = coins.size();
+    //     int minCount = INT_MAX;
+
+    //     for(int i =0;i<combaLength;++i) {
+    //         // 遍历所有面值
+    //         int currentValue = coins[i];
+
+    //         // 当前面值大于余额，跳过
+    //         if(currentValue > total) continue;
+
+    //         int rest = total - currentValue;
+    //         int restCount = getMinCounts(rest,coins);
+
+    //         // 如果返回-1，说明组合不成立，跳过
+    //         if(restCount == -1) continue;
+
+    //         int totalCount = 1+restCount;  // 保留最小总额
+    //         if(totalCount < minCount) minCount = totalCount;
+    //     }
+
+    //     // 若没有可用组合，返回-1
+    //     if(minCount == INT_MAX) return -1;
+    //     return minCount;
+    // }
+
+    // // 操作合并成一步
+    // int coinChange(vector<int>& coins, int amount) {
+    //     return getMinCounts(amount,coins);
+    // }
+
+    int getMinCounter(int amount,vector<int> &coins,vector<int> &memo) {
+        auto savedMinCount = memo[amount];
+        if(savedMinCount != -2) return savedMinCount;
+
+        int valueLength = coins.size();
+        int minCount = INT_MAX;
+        for(int i=0;i<valueLength;++i) {
+            // 遍历所有面值
+            int currentValue = coins[i];
+            // 若当前面值大于硬币总额，跳过
+            if(currentValue > amount) continue;
+            // 使用当前面值，得到剩余硬币总额
+            int rest = amount - coins[i];
+            int restCount = getMinCounter(rest,coins,memo);
+            // 若返回-1，说明组合不合适，跳过
+            if(restCount == -1) continue;
+
+            // 保留最小总额
+            int totalCount = 1+restCount;
+            if(totalCount < minCount) minCount = totalCount;
         }
-        return dp[amount];
+
+        // 若没有可用组合，返回-1
+        if(minCount == INT_MAX) {
+            memo[amount] = -1;
+            return -1;
+        }
+
+        memo[amount] = minCount;  // 记录到备忘录
+        return minCount;          // 返回最少硬币数
+    }
+
+    // 备忘录
+    int coinChange(vector<int>& coins, int amount) {
+        vector<int> memo(amount+1,-2);  // 没有缓存的元素为-2
+        memo[0] = 0;                    // 0对应的结果为0，存入备忘录
+
+        // 求出最小的硬币结果，并且输出结果
+        return getMinCounter(amount,coins,memo);
     }
 };
 // @lc code=end
