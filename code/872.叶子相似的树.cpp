@@ -30,25 +30,29 @@ public:
         vector<int> leafs_1;
         vector<int> leafs_2;
 
-        Level_trave(leafs_1,root1);
-        Level_trave(leafs_2,root2);
+        pre_order(leafs_1,root1);
+        pre_order(leafs_2,root2);
         
         // 逐个对比
         return isSimilar(leafs_1,leafs_2);
     }
 
-    bool isSimilar(vector<int> &nums1,vector<int> &nums2) {
-        vector<int> leafs1;
-        vector<int> leafs2;
+    // 中序遍历，将叶子节点都加入到nums数组
+    void pre_order(vector<int> &nums,TreeNode* root) {
+        if(!root) return;
 
-        // 将所有的叶节点挑选出来
-        for(int i=0;i<nums1.size();++i) {
-            // 找到叶子节点
-            if(nums1[2*i+1] == -1 && nums1[2*i+2] == -1)
-                leafs1.push_back(nums1[i]);
-        }
+        if(!root->left && !root->right)
+            nums.push_back(root->val);
+        if(root->left) pre_order(nums,root->left);
+        if(root->right) pre_order(nums,root->right);
+    }
 
-
+    bool isSimilar(vector<int> &nums1,vector<int> &nums2){
+        if(nums1.size() != nums2.size()) return false;
+        for(int i=0;i<nums1.size();++i) 
+            if(nums1[i] != nums2[i])
+                return false;
+        return true;
     }
 
     // 层次遍历二叉树，将每个节点的值存入数组
@@ -67,10 +71,10 @@ public:
             nums.push_back(curr->val);
             if(curr->left) 
                 q.push(curr->left);
-            else nums.push_back(-1);
+            // else nums.push_back(-1);
             if(curr->right)
                 q.push(curr->right);
-            else nums.push_back(-1);
+            // else nums.push_back(-1);
         }
     }
 };
