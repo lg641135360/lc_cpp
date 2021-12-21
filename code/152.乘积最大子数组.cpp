@@ -75,7 +75,7 @@ public:
     // }
 
     // 类似最大子列和 在线处理
-    int maxProduct(vector<int>& nums) {
+     int maxProduct(vector<int>& nums) {
         int n=nums.size();
         int ans = INT_MIN;
         int max_v = 1,min_v=1;
