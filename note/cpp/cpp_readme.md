@@ -35,6 +35,7 @@
 * `TODO`
 * [多态、静态绑定与动态绑定、虚函数、虚表指针、`object slicing`与虚函数、`overload,override,overwrite`](./b/多态1.md)
 * [纯虚函数、抽象类、多态](./b/多态2.md)
+* [对象动态创建](./b/对象动态创建.md)
 
 
 
