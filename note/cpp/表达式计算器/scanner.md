@@ -12,16 +12,6 @@ class EToken{
 	+TOEKN_RPARENTHESIS
 	+TOEKN_IDENTIFIER
 }
-class Scanner{
-	+buf_:string
-	+number_:double
-	+curPos_:unsigned int
-	+token_:EToken
-	+Accept() void
-	+Numer() double
-	+Token() EToken
-	-SkipWhite() void
-}
 ```
 
 
