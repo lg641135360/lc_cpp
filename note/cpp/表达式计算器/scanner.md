@@ -17,8 +17,8 @@ class Scanner{
 	+number_:double
 	+curPos_:unsigned int
 	+token_:EToken
-	+Accept() void
-	+Numer() double
+	+Accept() void 
+	+Number() double
 	+Token() EToken
 	-SkipWhite() void
 }
