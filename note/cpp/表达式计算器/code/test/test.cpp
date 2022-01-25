@@ -1,6 +1,7 @@
 #include "node.h"
 #include "scanner.h"
 #include "parser.h"
+#include "stack.h"
 
 #include <iostream>
 int main()
