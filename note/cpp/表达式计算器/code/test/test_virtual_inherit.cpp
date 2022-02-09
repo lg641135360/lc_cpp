@@ -28,7 +28,25 @@ public:
 int main()
 {
     cout << sizeof(BB) << endl; // 4
-    cout << sizeof(B1) << endl;
-    cout << sizeof(DD) << endl;
+    cout << sizeof(B1) << endl; // 16 = 8(x64 ptr) + sizeof(b1_) + sizeof(bb_)
+    cout << sizeof(DD) << endl; // 40 =
+
+    B1 b1;
+    cout << &b1 << endl;
+    cout << &b1.bb_ << endl;
+    cout << &b1.b1_ << endl;
+
+    cout << endl;
+
+    DD dd;
+    cout << &dd << endl;
+    cout << &dd.b1_ << endl;
+    cout << &dd.b2_ << endl;
+    cout << &dd.dd_ << endl;
+    cout << &dd.bb_ << endl;
+
+    BB *pp;
+    pp = &dd;
+    pp->bb_; // 指针通过间接访问，需要运行时支持
     return 0;
 }
