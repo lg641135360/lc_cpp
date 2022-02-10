@@ -40,6 +40,11 @@ Integer operator++(Integer &i, int n)
     return tmp;
 }
 
+Integer::operator int()
+{
+    return n_;
+}
+
 void Integer::Display() const
 {
     cout << n_ << endl;

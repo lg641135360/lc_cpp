@@ -14,6 +14,8 @@ public:
     // Integer operator++(int i); // 参数只是为了区分前置与后置
     friend Integer operator++(Integer &i, int n);
 
+    operator int(); // 转换成int类型
+
     void Display() const;
 
 private:
