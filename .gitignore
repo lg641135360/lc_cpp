@@ -33,3 +33,6 @@
 
 # 编辑器配置
 *.json
+
+# os
+*.DS_Store
