@@ -8,7 +8,7 @@
 class Solution
 {
 private:
-    vector<vector<string> > result;
+    vector<vector<string>> result;
     vector<string> path; // 放已经回文的子串
     void backtracking(const string &s, int startIndex)
     {
@@ -28,7 +28,7 @@ private:
             }
             else
             { // 不是回文，跳过
-                continue; 
+                continue;
             }
             backtracking(s, i + 1); // 寻找i+1为起始位置的子串
             path.pop_back();        // 回溯过程，弹出本次已经填在的子串
@@ -47,7 +47,7 @@ private:
     }
 
 public:
-    vector<vector<string> > partition(string s)
+    vector<vector<string>> partition(string s)
     {
         result.clear();
         path.clear();
