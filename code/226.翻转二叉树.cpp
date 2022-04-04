@@ -32,13 +32,32 @@ public:
     //     return root;
     // }
 
+    // TreeNode *invertTree(TreeNode *root)
+    // {
+    //     if (!root)
+    //         return nullptr;
+    //     swap(root->left, root->right);
+    //     invertTree(root->left);
+    //     invertTree(root->right);
+    //     return root;
+    // }
+
     TreeNode *invertTree(TreeNode *root)
     {
         if (!root)
             return nullptr;
-        swap(root->left, root->right);
-        invertTree(root->left);
-        invertTree(root->right);
+        stack<TreeNode *> st;
+        st.push(root);
+        while (!st.empty())
+        {
+            TreeNode *node = st.top();
+            st.pop();
+            swap(node->left, node->right);
+            if (node->right)
+                st.push(node->right);
+            if (node->left)
+                st.push(node->left);
+        }
         return root;
     }
 };

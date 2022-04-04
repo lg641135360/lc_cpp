@@ -16,18 +16,50 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution
+{
 public:
     // 这里isLeft默认为false
-    int sumOfLeftLeaves(TreeNode* root, bool isLeft=false) {
+    // int sumOfLeftLeaves(TreeNode* root, bool isLeft=false) {
+    //     if (!root)
+    //         return 0;
+    //     int res = !root->left && !root->right && isLeft? root->val:0;
+    //     return res + sumOfLeftLeaves(root->left,true)
+    //                 + sumOfLeftLeaves(root->right,false);
+    // }
+
+    int sumOfLeftLeaves(TreeNode *root, bool isLeft = false)
+    {
         if (!root)
             return 0;
-        int res = !root->left && !root->right && isLeft? root->val:0;
-        return res + sumOfLeftLeaves(root->left,true)
-                    + sumOfLeftLeaves(root->right,false);
+        int leftValue = sumOfLeftLeaves(root->left);
+        int rightValue = sumOfLeftLeaves(root->right);
+
+        int midValue = 0;
+        if (root->left && !root->left->left && !root->left->right)
+            midValue = root->left->val;
+        int sum = midValue + leftValue + rightValue;
+        return sum;
     }
 
-
+    // int sumOfLeftLeaves(TreeNode *root)
+    // {
+    //     stack<TreeNode *> st;
+    //     if (!root)
+    //         st.push(root);
+    //     int res = 0;
+    //     while (!st.empty())
+    //     {
+    //         TreeNode *node = st.top();
+    //         st.pop();
+    //         if (node->left && !node->left->left && !node->left->right)
+    //             res += node->left->val;
+    //         if (node->right)
+    //             st.push(node->right);
+    //         if (node->left)
+    //             st.push(node->left);
+    //     }
+    //     return res;
+    // }
 };
 // @lc code=end
-
