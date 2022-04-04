@@ -17,18 +17,42 @@
  * };
  */
 
-class Solution {
+class Solution
+{
 public:
-    int maxDepth(TreeNode* root) {
+    // int maxDepth(TreeNode* root) {
+    //     if (!root)
+    //         return 0;
+    //     int depth = 1;
+    //     return depth + max(maxDepth(root->left),maxDepth(root->right));
+    // }
+
+    // int max(int a , int b){
+    //    return a>=b? a : b;
+    // }
+
+    int maxDepth(TreeNode *root)
+    {
         if (!root)
             return 0;
-        int depth = 1;
-        return depth + max(maxDepth(root->left),maxDepth(root->right));
-    }
-
-    int max(int a , int b){
-       return a>=b? a : b;
+        int depth = 0;
+        queue<TreeNode *> que;
+        que.push(root);
+        while (!que.empty())
+        {
+            int size = que.size();
+            depth++;
+            for (int i = 0; i < size; i++)
+            {
+                TreeNode *node = que.front();
+                que.pop();
+                if (node->left)
+                    que.push(node->left);
+                if (node->right)
+                    que.push(node->right);
+            }
+        }
+        return depth;
     }
 };
 // @lc code=end
-
