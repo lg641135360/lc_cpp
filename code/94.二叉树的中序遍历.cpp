@@ -16,23 +16,47 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution
+{
 public:
-    vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> res;
-        inorder(root, res);
-        return res;
-    }
+    // vector<int> inorderTraversal(TreeNode* root) {
+    //     vector<int> res;
+    //     inorder(root, res);
+    //     return res;
+    // }
 
-    void inorder(TreeNode* root, vector<int>& res){
-        if (!root)
+    // void inorder(TreeNode* root, vector<int>& res){
+    //     if (!root)
+    //     {
+    //         return;
+    //     }
+    //     inorder(root->left,res);
+    //     res.push_back(root->val);
+    //     inorder(root->right,res);
+    // }
+    vector<int> inorderTraversal(TreeNode *root)
+    {
+        vector<int> res;
+        stack<TreeNode *> st;
+        TreeNode *cur = root;
+        while (cur || !st.empty())
         {
-            return;
+            if (cur)
+            {
+                st.push(cur);
+                cur = cur->left;
+            }
+            else
+            {
+                cur = st.top();
+
+                st.pop();
+
+                res.push_back(cur->val);
+                cur = cur->right;
+            }
         }
-        inorder(root->left,res);
-        res.push_back(root->val);
-        inorder(root->right,res);
+        return res;
     }
 };
 // @lc code=end
-

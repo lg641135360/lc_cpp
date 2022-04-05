@@ -16,20 +16,49 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution
+{
 public:
     // 一次通过，哈哈哈哈
-    TreeNode* invertTree(TreeNode* root) {
-        if(!root) return NULL;
-        TreeNode* tmp;
-        tmp  = root->left;
-        root->left = root->right;
-        root->right = tmp;
-        // 在递归之前处理好本节点的事情
-        invertTree(root->left);
-        invertTree(root->right);
+    // TreeNode* invertTree(TreeNode* root) {
+    //     if(!root) return NULL;
+    //     TreeNode* tmp;
+    //     tmp  = root->left;
+    //     root->left = root->right;
+    //     root->right = tmp;
+    //     // 在递归之前处理好本节点的事情
+    //     invertTree(root->left);
+    //     invertTree(root->right);
+    //     return root;
+    // }
+
+    // TreeNode *invertTree(TreeNode *root)
+    // {
+    //     if (!root)
+    //         return nullptr;
+    //     swap(root->left, root->right);
+    //     invertTree(root->left);
+    //     invertTree(root->right);
+    //     return root;
+    // }
+
+    TreeNode *invertTree(TreeNode *root)
+    {
+        if (!root)
+            return nullptr;
+        stack<TreeNode *> st;
+        st.push(root);
+        while (!st.empty())
+        {
+            TreeNode *node = st.top();
+            st.pop();
+            swap(node->left, node->right);
+            if (node->right)
+                st.push(node->right);
+            if (node->left)
+                st.push(node->left);
+        }
         return root;
     }
 };
 // @lc code=end
-
