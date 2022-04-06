@@ -11,27 +11,21 @@ public:
     // 栈？
     string removeDuplicates(string s)
     {
-        // base
-        if (s.size() == 1)
-            return s;
-
-        st.push(s[0]);
-        int index = 1;
-        while (!st.empty() && index < s.size())
+        for (char c : s)
         {
-            if (s[index] == st.top())
-            {
-                s.erase(index - 1, 2);
-                st.pop();
-                index--;
-                // 空了再加
-                if (st.empty())
-                    st.push(s[index++]);
-            }
+            if (st.empty() || c != st.top())
+                st.push(c);
             else
-                st.push(s[index++]);
+                st.pop();
         }
-        return s;
+        string res = "";
+        while (!st.empty())
+        {
+            res += st.top();
+            st.pop();
+        }
+        reverse(res.begin(), res.end());
+        return res;
     }
 
 private:

@@ -40,44 +40,68 @@ public:
     //   return s1.empty() && s2.empty();
     // }
 
-    void push(int x) {
-        stack<int> tmp_stack;
-        while(!_data.empty()) {
-            tmp_stack.push(_data.top());
-            _data.pop();
+    // void push(int x) {
+    //     stack<int> tmp_stack;
+    //     while(!_data.empty()) {
+    //         tmp_stack.push(_data.top());
+    //         _data.pop();
+    //     }
+    //     tmp_stack.push(x);
+    //     while(!tmp_stack.empty()) {
+    //         _data.push(tmp_stack.top());
+    //         tmp_stack.pop();
+    //     }
+    // }
+
+    // int pop() {
+    //     int x = _data.top();
+    //     _data.pop();
+    //     return x;
+    // }
+
+    // int peek() {
+    //     return _data.top();
+    // }
+
+    // bool empty() {
+    //     return _data.empty();
+    // }
+
+    void push(int x)
+    {
+        stIn.push(x);
+    }
+
+    int pop()
+    {
+        if(stOut.empty())
+        {
+            while(!stIn.empty())
+            {
+                stOut.push(stIn.top());
+                stIn.pop();
+            }
         }
-        tmp_stack.push(x);
-        while(!tmp_stack.empty()) {
-            _data.push(tmp_stack.top());
-            tmp_stack.pop();
-        }
+        int res = stOut.top();
+        stOut.pop();
+        return res;
     }
 
-    int pop() {
-        int x = _data.top();
-        _data.pop();
-        return x;
+    int peek()
+    {
+        int res = pop();
+        stOut.push(res);
+        return res;
     }
 
-    int peek() {
-        return _data.top();
-    }
-
-    bool empty() {
-        return _data.empty();
+    bool empty()
+    {
+        return stIn.empty() && stOut.empty();
     }
 
 private:
-    stack<int> _data;
-//   stack<int> s1;
-//   stack<int> s2;
-//   // 将输入搬到输出
-//   void inToOut(){
-//     while(!s1.empty()){
-//         s2.push(s1.top());
-//         s1.pop();
-//     }
-//   }
+    stack<int> stIn;
+    stack<int> stOut;
 };
 
 /**
