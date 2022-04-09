@@ -183,24 +183,38 @@ public:
 
     // 吃药：初始状态有能量值，走到一个地方吃一个能量，总是比较现有的能量和格子中的能量
     // 每次选择能量大的
+    // bool canJump(vector<int> &nums)
+    // {
+    //     int n = nums.size();
+    //     // base case
+    //     if (n == 1)
+    //         return true;
+
+    //     // n>=2
+    //     int cur = nums[0];
+    //     int i;
+    //     // 不需要走完，若能量耗尽则放弃
+    //     for (i = 1; cur > 0 && i < n; i++)
+    //     {
+    //         cur--;
+    //         cur = cur > nums[i] ? cur : nums[i];
+    //     }
+
+    //     return i == n;
+    // }
+
     bool canJump(vector<int> &nums)
     {
-        int n = nums.size();
-        // base case
-        if (n == 1)
+        int cover = 0;
+        if (nums.size() == 1)
             return true;
-
-        // n>=2
-        int cur = nums[0];
-        int i;
-        // 不需要走完，若能量耗尽则放弃
-        for (i = 1; cur > 0 && i < n; i++)
+        for (int i = 0; i <= cover; i++)
         {
-            cur--;
-            cur = cur > nums[i] ? cur : nums[i];
+            cover = max(i + nums[i], cover);
+            if (cover >= nums.size() - 1)
+                return true;
         }
-
-        return i == n;
+        return false;
     }
 };
 // @lc code=end
