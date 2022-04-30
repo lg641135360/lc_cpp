@@ -5,7 +5,8 @@
  */
 
 // @lc code=start
-class Solution {
+class Solution
+{
 public:
     // dp[i][j]代表（0，0）位置到（i，j）位置的最多路径数
     // int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
@@ -23,7 +24,7 @@ public:
     //         }
     //         else dp[i][0] = 1;
     //     }
-    //     if(index_obs != -1) 
+    //     if(index_obs != -1)
     //         for(int i=index_obs+1;i<m;++i)
     //             dp[i][0] = 0;
 
@@ -36,10 +37,10 @@ public:
     //         }
     //         else dp[0][i] = 1;
     //     }
-    //     if(index_obs != -1) 
+    //     if(index_obs != -1)
     //         for(int i=index_obs+1;i<n;++i)
     //             dp[0][i] = 0;
-        
+
     //     for(int i=1;i<m;++i)
     //         for(int j=1;j<n;++j) {
     //             // dp[i][j] == 0表示不可达
@@ -49,31 +50,52 @@ public:
     //     return dp[m-1][n-1];
     // }
 
-    int uniquePathsWithObstacles(vector<vector<int>>& v) {
+    // int uniquePathsWithObstacles(vector<vector<int>> &v)
+    // {
+    //     int m = v.size();
+    //     int n = v[0].size();
+
+    //     int dp[m][n];
+    //     memset(dp, 0, sizeof(dp));
+
+    //     // 初始化状态
+    //     for (int i = 0; i < m && v[i][0] == 0; i++)
+    //         dp[i][0] = 1;
+    //     for (int j = 0; j < n && v[0][j] == 0; j++)
+    //         dp[0][j] = 1;
+
+    //     for (int i = 1; i < m; i++)
+    //     {
+    //         for (int j = 1; j < n; j++)
+    //         {
+    //             if (v[i][j])
+    //                 dp[i][j] = 0;
+    //             else
+    //                 dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+    //         }
+    //     }
+
+    //     return dp[m - 1][n - 1];
+    // }
+
+    int uniquePathsWithObstacles(vector<vector<int>> &v)
+    {
         int m = v.size();
         int n = v[0].size();
-
-        int dp[m][n];
-        memset(dp,0,sizeof(dp));
-
-        // 初始化状态
-        for(int i = 0;i<m && v[i][0] == 0;i++)
+        vector<vector<int>> dp(m, vector<int>(n, 0));
+        for (int i = 0; i < m && v[i][0] == 0; i++)
             dp[i][0] = 1;
-        for(int j = 0;j<n && v[0][j] == 0;j++)  
+        for (int j = 0; j < n && v[0][j] == 0; j++)
             dp[0][j] = 1;
-        
-        for(int i=1;i<m;i++)
-        {
-            for(int j=1;j<n;j++)
+        for (int i = 1; i < m; i++)
+            for (int j = 1; j < n; j++)
             {
-                if(v[i][j])
-                    dp[i][j] = 0;
-                else dp[i][j] = dp[i-1][j] + dp[i][j-1];
+                if (v[i][j] == 1)
+                    continue;
+                else
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
             }
-        }
-            
-        return dp[m-1][n-1];
+        return dp[m - 1][n - 1];
     }
 };
 // @lc code=end
-
