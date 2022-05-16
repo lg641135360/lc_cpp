@@ -85,4 +85,5 @@
 * [cpp_note](./note/cpp/cpp_readme.md)
 
 ![](https://www.zhihu.com/equation?tex=P)
-![](http://latex.codecogs.com/gif.latex?\\frac{1}{1+sin(x)})
+
+![](http://latex.codecogs.com/gif.latex?\\\widehat{\mathcal{S}}=\left\{\left(\mathbf{x}_{i}^{s}, \mathbf{y}_{i}^{s}\right)\right\}_{i=1}^{n})
