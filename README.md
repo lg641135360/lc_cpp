@@ -86,4 +86,4 @@
 
 ![](https://www.zhihu.com/equation?tex=P)
 
-![](http://latex.codecogs.com/gif.latex?\\widehat{\mathcal{S}}=\left\{\left(\mathbf{x}_{i}^{s}, \mathbf{y}_{i}^{s}\right)\right\}_{i=1}^{n})
+![](https://www.zhihu.com/equation?tex=\widehat{\mathcal{T}}=\left\{\mathbf{x}_{i}^{t}\right\}_{i=1}^{m})
