@@ -85,4 +85,4 @@
 * [cpp_note](./note/cpp/cpp_readme.md)
 
 ![](https://www.zhihu.com/equation?tex=P)
-![](https://www.latexlive.com/#JTVDd2lkZWhhdCU3QiU1Q21hdGhjYWwlN0JTJTdEJTdEPSU1Q2xlZnQlNUMlN0IlNUNsZWZ0KCU1Q21hdGhiZiU3QnglN0RfJTdCaSU3RCU1RSU3QnMlN0QsJTIwJTVDbWF0aGJmJTdCeSU3RF8lN0JpJTdEJTVFJTdCcyU3RCU1Q3JpZ2h0KSU1Q3JpZ2h0JTVDJTdEXyU3Qmk9MSU3RCU1RSU3Qm4lN0Q=)
+![](http://latex.codecogs.com/gif.latex?\\frac{1}{1+sin(x)})
