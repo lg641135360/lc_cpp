@@ -86,4 +86,4 @@
 
 ![](https://www.zhihu.com/equation?tex=P)
 
-![](https://www.zhihu.com/equation?tex=\widehat{\mathcal{T}}=\left\{\mathbf{x}_{i}^{t}\right\}_{i=1}^{m})
+![](https://www.zhihu.com/equation?tex=P(X))
