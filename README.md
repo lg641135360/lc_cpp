@@ -84,3 +84,6 @@
       * [307.区域和的查询](./note/高级数据结构/区域和的查询.md)
 * [cpp_note](./note/cpp/cpp_readme.md)
 
+![](https://www.zhihu.com/equation?tex=P)
+
+![](https://www.zhihu.com/equation?tex=P(X))
