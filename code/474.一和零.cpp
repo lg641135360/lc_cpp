@@ -14,7 +14,7 @@ public:
         for (string s : strs)
         {
             int oneNum = 0, zeroNum = 0;
-            for (char c : str)
+            for (char c : s)
             {
                 if (c == '0')
                     zeroNum++;
