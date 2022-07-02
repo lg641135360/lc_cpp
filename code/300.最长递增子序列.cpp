@@ -5,7 +5,8 @@
  */
 
 // @lc code=start
-class Solution {
+class Solution
+{
 public:
     // int lengthOfLIS(vector<int>& nums) {
     //     vector<int> dp(nums.size(),0);
@@ -23,26 +24,43 @@ public:
     // }
 
     // DP[i]表示从0开始到i结束的最长递增子序列长度
-    int lengthOfLIS(vector<int>& nums) {
-        int n = nums.size();
-        if(0==n) return 0;
-        int dp[n];
-        for(int i=0;i<n;i++)
-            dp[i] = 1; // 初始化状态
+    // int lengthOfLIS(vector<int> &nums)
+    // {
+    //     int n = nums.size();
+    //     if (0 == n)
+    //         return 0;
+    //     int dp[n];
+    //     for (int i = 0; i < n; i++)
+    //         dp[i] = 1; // 初始化状态
 
+    //     int res = 1;
+    //     for (int j = 0; j < n; j++)
+    //     {
+    //         for (int i = 0; i < j; i++)
+    //         {
+    //             if (nums[i] < nums[j])
+    //                 dp[j] = max(dp[i] + 1, dp[j]);
+    //             res = max(dp[j], res);
+    //         }
+    //     }
+    //     return res;
+    // }
 
-        int res = 1;
-        for(int j=0;j<n;j++)
+    int lengthOfLIS(vector<int> &nums)
+    {
+        if (nums.size() <= 1)
+            return nums.size();
+        vector<int> dp(nums.size(), 1);
+        int res = 0;
+        for (int i = 1; i < nums.size(); i++)
         {
-            for(int i=0;i<j;i++)
-            {
-                if(nums[i] < nums[j])
-                    dp[j] = max(dp[i]+1,dp[j]);
-                    res = max(dp[j],res);
-            }
+            for (int j = 0; j < i; j++)
+                if (nums[i] > nums[j])
+                    dp[i] = max(dp[i], dp[j] + 1);
+            if (dp[i] > res)
+                res = dp[i];
         }
         return res;
     }
 };
 // @lc code=end
-
