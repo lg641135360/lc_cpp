@@ -116,27 +116,43 @@ public:
     //     return res;
     // }
 
+    // int maxProduct(vector<int> &nums)
+    // {
+    //     int n = static_cast<int>(nums.size());
+    //     int dp[n][2];
+
+    //     for (int i = 0; i < n; i++)
+    //     {
+    //         dp[i][0] = nums[i];
+    //         dp[i][1] = nums[i];
+    //     }
+
+    //     for (int i = 1; i < n; i++)
+    //     {
+    //         dp[i][0] = max(dp[i - 1][0] * nums[i], max(nums[i], dp[i - 1][1] * nums[i]));
+    //         dp[i][1] = min(dp[i - 1][1] * nums[i], min(nums[i], dp[i - 1][0] * nums[i]));
+    //     }
+
+    //     int ans = dp[0][0];
+    //     for (int i = 1; i < n; i++)
+    //         ans = max(ans, dp[i][0]);
+    //     return ans;
+    // }
+
     int maxProduct(vector<int> &nums)
     {
-        int n = static_cast<int>(nums.size());
-        int dp[n][2];
-
-        for (int i = 0; i < n;i++)
+        int prevMin = nums[0];
+        int prevMax = nums[0];
+        int res = nums[0];
+        for (int i = 1; i < nums.size(); i++)
         {
-            dp[i][0] = nums[i];
-            dp[i][1] = nums[i];
+            int tmp1 = prevMax * nums[i];
+            int tmp2 = prevMin * nums[i];
+            prevMin = min(min(tmp1, tmp2), nums[i]);
+            prevMax = max(max(tmp1, tmp2), nums[i]);
+            res = max(prevMax, res);
         }
-
-        for (int i = 1; i < n;i++)
-        {
-            dp[i][0] = max(dp[i - 1][0] * nums[i], max(nums[i], dp[i - 1][1] * nums[i]));
-            dp[i][1] = min(dp[i - 1][1] * nums[i], min(nums[i], dp[i - 1][0] * nums[i]));
-        }
-
-        int ans = dp[0][0];
-        for (int i = 1; i < n;i++)
-            ans = max(ans, dp[i][0]);
-        return ans;
+        return res;
     }
 };
 // @lc code=end
