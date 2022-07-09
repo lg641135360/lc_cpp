@@ -5,11 +5,12 @@
  */
 
 // @lc code=start
-class Solution {
+class Solution
+{
 public:
-    vector<int> dailyTemperatures(vector<int>& temperatures) {
-
+    vector<int> dailyTemperatures(vector<int> &temperatures)
+    {
+        
     }
 };
 // @lc code=end
-
