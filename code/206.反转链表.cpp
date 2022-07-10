@@ -62,23 +62,12 @@ public:
     //     return prev;
     // }
 
-    // ListNode* reverseList(ListNode* head){
-    //     ListNode *new_head = NULL;
-    //     while(head) {
-    //         ListNode *next = head->next;
-    //         head->next = new_head;
-    //         new_head = head;
-    //         head = next;
-    //     }
-    //     return new_head;
-    // }
-
     // 构造一个指向空的指针，一边反转，一边将新头往后移动
     // 保持newHead一直在head的前一个，作为pre指针
     ListNode *reverseList(ListNode *head)
     {
         ListNode *newHead = nullptr;
-        while(head)
+        while (head)
         {
             // 暂时保存要断开连接的节点指针
             ListNode *tmp = head->next;
