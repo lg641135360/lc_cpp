@@ -15,13 +15,17 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-class Solution {
+class Solution
+{
 public:
     // 快慢指针
-    ListNode* middleNode(ListNode* head) {
-        ListNode *fast=head,*slow=head;
-        if(!head) return {};
-        while(fast && fast->next){
+    ListNode *middleNode(ListNode *head)
+    {
+        ListNode *fast = head, *slow = head;
+        if (!head)
+            return {};
+        while (fast && fast->next)
+        {
             slow = slow->next;
             fast = fast->next->next;
         }
@@ -29,4 +33,3 @@ public:
     }
 };
 // @lc code=end
-

@@ -5,7 +5,8 @@
  */
 
 // @lc code=start
-class Solution {
+class Solution
+{
 public:
     // 边界问题没有处理好
     // vector<vector<int>> threeSum(vector<int>& nums) {
@@ -108,39 +109,89 @@ public:
     //     return res;
     // }
 
-    vector<vector<int>> threeSum(vector<int>& nums)
+    // vector<vector<int>> threeSum(vector<int> &nums)
+    // {
+    //     vector<vector<int>> res;
+    //     // 特判
+    //     if (nums.size() < 3 || nums.empty())
+    //         return res;
+    //     int n = nums.size();
+
+    //     // 排序
+    //     sort(nums.begin(), nums.end());
+    //     for (int i = 0; i < n; i++) // 遍历最小值
+    //     {
+    //         if (nums[i] > 0)
+    //             return res; // 后面无可能==0
+    //         if (i > 0 && nums[i] == nums[i - 1])
+    //             continue; // 最小元素去重
+
+    //         int l = i + 1;
+    //         int r = n - 1;
+    //         while (l < r) // 双指针，遍历区间内每个值
+    //         {
+    //             int x = nums[l] + nums[i] + nums[r];
+    //             if (x == 0)
+    //             {
+    //                 // 符合条件，存储、去重、双端移动
+    //                 res.push_back({nums[i], nums[l], nums[r]});
+
+    //                 // 去重复
+    //                 while (l < r && nums[l] == nums[l + 1])
+    //                     l++;
+    //                 while (l < r && nums[r] == nums[r - 1])
+    //                     r--;
+    //                 l++;
+    //                 r--;
+    //             }
+    //             else if (x > 0)
+    //                 r--; // 大了让最大值变小
+    //             else
+    //                 l++; // 小了让最大值变大
+    //         }
+    //     }
+    //     return res;
+    // }
+
+    vector<vector<int>> threeSum(vector<int> &nums)
     {
-        vector<vector<int>> res;
-        // 特判
-        if(nums.size() < 3 || nums.empty())
-            return res;
         int n = nums.size();
+        // base case
+        if (n < 3)
+            return {};
 
-        // 排序
-        sort(nums.begin(),nums.end());
-        for(int i=0;i<n;i++)  // 遍历最小值
+        vector<vector<int>> res;
+
+        sort(nums.begin(), nums.end());
+        for (int i = 0; i < n; i++)
         {
-            if(nums[i] > 0) return res; // 后面无可能==0
-            if(i>0 && nums[i] == nums[i-1]) continue; // 最小元素去重
+            if (nums[i] > 0)
+                return res;
+            if (i > 0 && nums[i] == nums[i - 1])
+                continue;
 
-            int l = i+1;
-            int r = n-1;
-            while(l<r)  // 双指针，遍历区间内每个值
+            int l = i + 1, r = n - 1;
+            // 双指针遍历区间，找到两个值和为-nums[i]
+            while (l < r)
             {
-                int x = nums[l] + nums[i] + nums[r];
-                if(x==0)
+                int x = nums[i] + nums[l] + nums[r];
+                if (x == 0)
                 {
                     // 符合条件，存储、去重、双端移动
-                    res.push_back({nums[i],nums[l],nums[r]});
-                    
-                    // 去重复
-                    while(l<r && nums[l] == nums[l+1]) l++;
-                    while(l<r && nums[r] == nums[r-1]) r--;
+                    res.push_back({nums[i], nums[l], nums[r]});
+
+                    // 去除重复
+                    while (l < r && nums[l] == nums[l + 1])
+                        l++;
+                    while (l < r && nums[r] == nums[r - 1])
+                        r--;
                     l++;
                     r--;
                 }
-                else if( x > 0) r--;  // 大了让最大值变小
-                else l++;             // 小了让最大值变大
+                else if (x < 0)
+                    l++;
+                else
+                    r--;
             }
         }
         return res;
