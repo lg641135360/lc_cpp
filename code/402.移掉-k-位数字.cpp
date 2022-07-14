@@ -8,34 +8,63 @@
 class Solution
 {
 public:
+    // string removeKdigits(string num, int k)
+    // {
+    //     vector<int> s; // 使用vector实现栈
+    //     string res = "";
+    //     for (int i = 0; i < num.size(); ++i)
+    //     {
+    //         int number = num[i] - '0'; // 将最高位char转换成数字
+    //         // 出栈
+    //         while (s.size() != 0 && number < s[s.size() - 1] && k > 0)
+    //         {
+    //             s.pop_back();
+    //             k--;
+    //         }
+    //         // 入栈
+    //         // 当前元素是0也可以入栈
+    //         if (number != 0 || s.size() != 0)
+    //             s.push_back(number);
+    //     }
+    //     while (s.size() != 0 && k > 0)
+    //     {
+    //         s.pop_back();
+    //         k--;
+    //     }
+    //     for (int i = 0; i < s.size(); ++i)
+    //         res += to_string(s[i]);
+    //     if (res == "")
+    //         res = "0";
+    //     return res;
+    // }
+
     string removeKdigits(string num, int k)
     {
-        vector<int> s; // 使用vector实现栈
-        string res = "";
-        for (int i = 0; i < num.size(); ++i)
+        stack<char> st;
+        int remain = num.size() - k;
+        for (int i = 0; i < num.size(); i++)
         {
-            int number = num[i] - '0'; // 将最高位char转换成数字
-            // 出栈
-            while (s.size() != 0 && number < s[s.size() - 1] && k > 0)
+            while (k && !st.empty() && st.top() > num[i])
             {
-                s.pop_back();
+                st.pop();
                 k--;
             }
-            // 入栈
-            // 当前元素是0也可以入栈
-            if (number != 0 || s.size() != 0)
-                s.push_back(number);
+            st.push(num[i]);
         }
-        while (s.size() != 0 && k > 0)
+        string s = "";
+        while (!st.empty())
         {
-            s.pop_back();
-            k--;
+            char c = st.top();
+            s += c;
+            st.pop();
         }
-        for (int i = 0; i < s.size(); ++i)
-            res += to_string(s[i]);
-        if (res == "")
-            res = "0";
-        return res;
+        std::reverse(s.begin(), s.end());
+        s = s.substr(0, remain);
+        while(s[0] == '0' && s.size() > 1)
+            s = s.substr(1);
+        if(s=="")
+            return "0";
+        return s;
     }
 };
 // @lc code=end
