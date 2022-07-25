@@ -64,21 +64,79 @@ public:
 
     // 构造一个指向空的指针，一边反转，一边将新头往后移动
     // 保持newHead一直在head的前一个，作为pre指针
+    // ListNode *reverseList(ListNode *head)
+    // {
+    //     ListNode *newHead = nullptr;
+    //     while (head)
+    //     {
+    //         // 暂时保存要断开连接的节点指针
+    //         ListNode *tmp = head->next;
+    //         // 切断连接，指向前一个
+    //         head->next = newHead;
+    //         // 移动pre指针
+    //         newHead = head;
+    //         // 头指针往后，取得之前保存的下一个指针位
+    //         head = tmp;
+    //     }
+    //     return newHead;
+    // }
+
+    // ListNode *reverseList(ListNode *head)
+    // {
+    //     ListNode *pre = nullptr;
+    //     ListNode *cur = head;
+    //     while(cur)
+    //     {
+    //         // 记住联系方式
+    //         ListNode *tmp = cur->next;
+    //         // 修改指针
+    //         cur->next = pre;
+    //         // 继续往后
+    //         pre = cur;
+    //         cur = tmp;
+    //     }
+    //     return pre;
+    // }
+
+    // 前序递归
+    //     ListNode *reverseList(ListNode *head)
+    //     {
+    //         return dfs(head, nullptr);
+    //     }
+
+    // private:
+    //     ListNode* dfs(ListNode *cur, ListNode *pre)
+    //     {
+    //         if (!cur)
+    //             return pre;
+    //         // memory the next node
+    //         ListNode *next = cur->next;
+    //         // turn the direction
+    //         cur->next = pre;
+    //         // recursion
+    //         return dfs(next, cur);
+    //     }
+
+    // 后序递归
     ListNode *reverseList(ListNode *head)
     {
-        ListNode *newHead = nullptr;
-        while (head)
-        {
-            // 暂时保存要断开连接的节点指针
-            ListNode *tmp = head->next;
-            // 切断连接，指向前一个
-            head->next = newHead;
-            // 移动pre指针
-            newHead = head;
-            // 头指针往后，取得之前保存的下一个指针位
-            head = tmp;
-        }
-        return newHead;
+        return dfs(head);
+    }
+
+private:
+    ListNode *dfs(ListNode *cur)
+    {
+        // base case
+        if (!cur || !cur->next)
+            return cur;
+
+        ListNode *res = dfs(cur->next);
+
+        // 开始处理节点，当作后面遍历的节点已经处理完了
+        cur->next->next = cur;
+        cur->next = nullptr;
+
+        return res;
     }
 };
 // @lc code=end
