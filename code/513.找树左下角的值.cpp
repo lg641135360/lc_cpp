@@ -72,21 +72,21 @@ public:
     int findBottomLeftValue(TreeNode *root)
     {
         queue<TreeNode *> que;
-        if(root)
+        if (root)
             que.push(root);
         int res = 0;
-        while(!que.empty())
+        while (!que.empty())
         {
             int size = que.size();
-            for (int i = 0; i < size;i++)
+            for (int i = 0; i < size; i++)
             {
                 TreeNode *node = que.front();
                 que.pop();
-                if(i == 0) // 记录这层第一个
+                if (i == 0) // 记录这层第一个
                     res = node->val;
-                if(node->left)
+                if (node->left)
                     que.push(node->left);
-                if(node->right)
+                if (node->right)
                     que.push(node->right);
             }
         }

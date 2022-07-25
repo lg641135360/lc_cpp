@@ -16,11 +16,28 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution
+{
 public:
-    int maxPathSum(TreeNode* root) {
-        
+    int maxPathSum(TreeNode *root)
+    {
+        dfs(root);
+        return ans;
+    }
+
+private:
+    int ans = INT_MIN;
+
+    int dfs(TreeNode* cur)
+    {
+        // base case
+        if (!cur)
+            return 0;
+        int l = dfs(cur->left);
+        int r = dfs(cur->right);
+
+        ans = max(ans, max(l, 0) + max(r, 0) + cur->val);
+        return max(l, max(r, 0)) + cur->val;
     }
 };
 // @lc code=end
-
