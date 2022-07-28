@@ -59,27 +59,52 @@ public:
     //     return res;
     // }
 
+    // int countNodes(TreeNode *root)
+    // {
+    //     if (!root)
+    //         return 0;
+    //     TreeNode *left = root->left;
+    //     TreeNode *right = root->right;
+    //     int leftHeight = 0, rightHeight = 0;
+    //     while (left)
+    //     {
+    //         left = left->left;
+    //         leftHeight++;
+    //     }
+    //     while (right)
+    //     {
+    //         right = right->right;
+    //         rightHeight++;
+    //     }
+
+    //     if (leftHeight == rightHeight)
+    //         return (2 << leftHeight) - 1;
+    //     return countNodes(root->left) + countNodes(root->right) + 1;
+    // }
+
+    // 层序遍历
     int countNodes(TreeNode *root)
     {
         if (!root)
             return 0;
-        TreeNode *left = root->left;
-        TreeNode *right = root->right;
-        int leftHeight = 0, rightHeight = 0;
-        while (left)
+        queue<TreeNode *> que;
+        que.push(root);
+        int res = 0;
+        while (!que.empty())
         {
-            left = left->left;
-            leftHeight++;
+            int size = que.size();
+            for (int i = 0; i < size; i++)
+            {
+                res++;
+                TreeNode *cur = que.front();
+                que.pop();
+                if (cur->left)
+                    que.push(cur->left);
+                if (cur->right)
+                    que.push(cur->right);
+            }
         }
-        while (right)
-        {
-            right = right->right;
-            rightHeight++;
-        }
-
-        if (leftHeight == rightHeight)
-            return (2 << leftHeight) - 1;
-        return countNodes(root->left) + countNodes(root->right) + 1;
+        return res;
     }
 };
 // @lc code=end

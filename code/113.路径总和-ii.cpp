@@ -39,7 +39,7 @@ public:
     //     path.pop_back();
     // }
 
-    vector<vector<int> > pathSum(TreeNode *root, int targetSum)
+    vector<vector<int>> pathSum(TreeNode *root, int targetSum)
     {
         if (!root)
             return res;
@@ -49,7 +49,7 @@ public:
     }
 
 private:
-    vector<vector<int> > res;
+    vector<vector<int>> res;
     vector<int> path;
 
     void trave(TreeNode *cur, int count)
