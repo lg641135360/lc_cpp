@@ -70,32 +70,48 @@ public:
     // 应使用先序遍历
     // 遍历过程维护祖先节点（当前节点的）最大，最小值，最后返回即可
     // 最大差值 max(abs当前节点-最小祖先值，abs当前节点值-最大祖先值)
+    //     int maxAncestorDiff(TreeNode *root)
+    //     {
+    //         // 要将祖先的min max传递到递归过程中
+    //         preOrder(root, root->val, root->val);
+
+    //         return res;
+    //     }
+
+    // private:
+    //     int res;
+
+    //     void preOrder(TreeNode *root, int smallest, int largest)
+    //     {
+    //         // 边界
+    //         if (!root)
+    //             return;
+
+    //         // 更新结果
+    //         res = max({res, abs(root->val - smallest), abs(largest - root->val)});
+
+    //         // 先序的操作
+    //         largest = max(root->val, largest);
+    //         smallest = min(root->val, smallest);
+
+    //         preOrder(root->left, smallest, largest);
+    //         preOrder(root->right, smallest, largest);
+    //     }
+
     int maxAncestorDiff(TreeNode *root)
     {
-        // 要将祖先的min max传递到递归过程中
-        preOrder(root, root->val, root->val);
-
-        return res;
+        return dfs(root, -100001, 100001);
     }
 
-private:
-    int res;
-
-    void preOrder(TreeNode *root, int smallest, int largest)
+    int dfs(TreeNode *root, int lower, int upper)
     {
-        // 边界
         if (!root)
-            return;
-
-        // 更新结果
-        res = max({res, abs(root->val - smallest), abs(largest - root->val)});
-
-        // 先序的操作
-        largest = max(root->val, largest);
-        smallest = min(root->val, smallest);
-
-        preOrder(root->left, smallest, largest);
-        preOrder(root->right, smallest, largest);
+            return upper - lower;
+        // 要么在左，要么在右，要么横跨。
+        return max(dfs(root->left, min(root->val, lower),
+                       max(root->val, upper)),
+                   dfs(root->right, min(root->val, lower),
+                       max(root->val, upper)));
     }
 };
 // @lc code=end

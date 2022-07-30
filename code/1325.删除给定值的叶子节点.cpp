@@ -24,20 +24,20 @@ public:
         t = target;
         TreeNode *ans = new TreeNode(-1);
         ans->left = root;
-        dfs(root,ans);
+        dfs(root, ans);
         return ans->left;
     }
 
 private:
     void dfs(TreeNode *cur, TreeNode *parent, bool isLeft = true)
     {
-        if(!cur)
+        if (!cur)
             return;
         dfs(cur->left, cur, true);
         dfs(cur->right, cur, false);
-        if(cur->val == t && parent && !cur->left && !cur->right)
+        if (cur->val == t && parent && !cur->left && !cur->right)
         {
-            if(isLeft)
+            if (isLeft)
                 parent->left = nullptr;
             else
                 parent->right = nullptr;

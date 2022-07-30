@@ -29,16 +29,16 @@ public:
 
 private:
     // 返回子树和，左右子树和为0的，去掉
-    int dfs(TreeNode* root)
+    int dfs(TreeNode *root)
     {
-        if(!root)
+        if (!root)
             return 0;
         int l = dfs(root->left);
         int r = dfs(root->right);
 
-        if(l == 0)
+        if (l == 0)
             root->left = nullptr;
-        if(r==0)
+        if (r == 0)
             root->right = nullptr;
         return l + r + root->val;
     }
