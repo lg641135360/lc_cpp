@@ -15,7 +15,8 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-class Solution {
+class Solution
+{
 public:
     // 想要使用循环的方法，但是不能记住头指针的位置，总是会被后面的指针覆盖
     // ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
@@ -44,7 +45,7 @@ public:
     //     }
     //     return head;
     // }
-    
+
     // 使用递归方法，让堆栈帮我们记忆头指针
     // ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
     //     // 有一个为空，返回另外一个链表指针即可。
@@ -61,24 +62,29 @@ public:
     // }
 
     // 添加一个临时头结点，让问题变得简单
-    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        ListNode temp_head(0);         // 临时头结点
+    ListNode *mergeTwoLists(ListNode *l1, ListNode *l2)
+    {
+        ListNode temp_head(0); // 临时头结点
         ListNode *pre = &temp_head;
-        while(l1&&l2) {
-            if(l1->val < l2->val) {
-                pre -> next = l1;
-                l1 = l1 -> next;
+        while (l1 && l2)
+        {
+            if (l1->val < l2->val)
+            {
+                pre->next = l1;
+                l1 = l1->next;
             }
-            else {
-                pre -> next = l2;
-                l2 = l2 -> next;
+            else
+            {
+                pre->next = l2;
+                l2 = l2->next;
             }
-            pre = pre->next;     // pre指向新连的节点
+            pre = pre->next; // pre指向新连的节点
         }
-        if(l1) pre->next = l1;   // 当l1有剩余，将l1接在pre后面
-        if(l2) pre->next = l2;
+        if (l1)
+            pre->next = l1; // 当l1有剩余，将l1接在pre后面
+        if (l2)
+            pre->next = l2;
         return temp_head.next;
     }
 };
 // @lc code=end
-

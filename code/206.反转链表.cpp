@@ -118,25 +118,36 @@ public:
     //     }
 
     // 后序递归
+    //     ListNode *reverseList(ListNode *head)
+    //     {
+    //         return dfs(head);
+    //     }
+
+    // private:
+    //     ListNode *dfs(ListNode *cur)
+    //     {
+    //         // base case
+    //         if (!cur || !cur->next)
+    //             return cur;
+
+    //         ListNode *res = dfs(cur->next);
+
+    //         // 开始处理节点，当作后面遍历的节点已经处理完了
+    //         cur->next->next = cur;
+    //         cur->next = nullptr;
+
+    //         return res;
+    //     }
+
     ListNode *reverseList(ListNode *head)
     {
-        return dfs(head);
-    }
+        if(!head || !head->next)
+            return head;
 
-private:
-    ListNode *dfs(ListNode *cur)
-    {
-        // base case
-        if (!cur || !cur->next)
-            return cur;
-
-        ListNode *res = dfs(cur->next);
-
-        // 开始处理节点，当作后面遍历的节点已经处理完了
-        cur->next->next = cur;
-        cur->next = nullptr;
-
-        return res;
+        ListNode *tmp = reverseList(head->next);
+        head->next->next = head;
+        head->next = nullptr;
+        return tmp;
     }
 };
 // @lc code=end

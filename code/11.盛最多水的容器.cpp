@@ -10,15 +10,15 @@ class Solution
 public:
     int maxArea(vector<int> &height)
     {
-        // base case 
-        if(height.size() == 0)
+        // base case
+        if (height.size() == 0)
             return 0;
         int begin = 0, end = height.size() - 1;
         int res = INT_MIN;
         while (begin < end)
         {
             res = max(res, min(height[begin], height[end]) * (end - begin));
-            if(height[begin] <= height[end])
+            if (height[begin] <= height[end])
                 begin++;
             else
                 end--;
